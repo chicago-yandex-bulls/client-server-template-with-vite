@@ -9,6 +9,8 @@ const SPEED = 2
 const BOOST_SPEED = 4
 
 export class MySnake {
+  // Флаг для откусывания жопки по таймауту
+  isActiveTimeOut = false
   // позиция головы змейки по горизонтали
   x: number
   // позиция головы змейки по вертикали
@@ -50,11 +52,20 @@ export class MySnake {
       })
     }
 
+    setInterval(() => this.decreaseLength(), 2000)
+
     this.canvasSegment = makeSnakeSegment(this.r, this.color)
   }
 
   increaseLength() {
     this.segments.push(this.segments[this.segments.length - 1])
+  }
+
+  decreaseLength() {
+    if (this.segments.length > 2 && this.isActiveTimeOut) {
+      this.segments.pop()
+      this.isActiveTimeOut = false
+    }
   }
 
   move(x: number, y: number, boost = false) {
@@ -65,8 +76,11 @@ export class MySnake {
 
     // Если голова достигла курсора мыши, то змейка останавливается и пересчитывать ее кординаты не нужно
     if (distanceToMouse < this.r / 2) {
+      this.isActiveTimeOut = true
       return
     }
+
+    this.isActiveTimeOut = false
 
     const speed = boost ? BOOST_SPEED : SPEED
 
