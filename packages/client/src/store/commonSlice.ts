@@ -1,14 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-interface CommonState {
-  currentUser: string;
-  theme: string;
-  language: string;
-}
+import { INITIAL_USER } from './constants';
+import { ICommonState, InitialUserType } from './interfaces';
 
-const initialState: CommonState = {
-  currentUser: 'Yolo man',
+const initialState: ICommonState = {
+  currentUser: INITIAL_USER,
   theme: 'default',
+  isAuthModalOpen: false,
   language: 'RU',
 };
 
@@ -16,8 +15,11 @@ export const counterSlice = createSlice({
   name: 'common',
   initialState,
   reducers: {
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<InitialUserType>) => {
       state.currentUser = action.payload;
+    },
+    toggleAuthModalState: state => {
+      state.isAuthModalOpen = !state.isAuthModalOpen;
     },
     setTheme: (state, action) => {
       state.theme = action.payload;
@@ -28,6 +30,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { setUser, setTheme, setLanguage } = counterSlice.actions;
+export const { setUser, toggleAuthModalState, setTheme, setLanguage } = counterSlice.actions;
 
 export default counterSlice.reducer;
