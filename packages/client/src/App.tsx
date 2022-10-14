@@ -3,13 +3,16 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { ForumPage } from './components/ForumPage/ForumPage';
 import { GamePage } from './components/GamePage/GamePage';
+import Loader from './components/Loader/Loader';
 import NoAuthPage from './components/NoAuthPage/NoAuthPage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
 import { StartPage } from './components/StartPage/StartPage';
+import { useAppSelector } from './store/hooks';
 import { IS_AUTHORIZED_KEY } from './utils/constants';
 
 export function App(): JSX.Element {
+  const { isLoading } = useAppSelector(state => state.common);
   const isAuthorized = !!sessionStorage.getItem(IS_AUTHORIZED_KEY);
   useEffect(() => {
     const fetchServerData = async () => {
@@ -23,6 +26,7 @@ export function App(): JSX.Element {
 
   return (
     <div className="App">
+      {isLoading && <Loader />}
       <Router>
         <Routes>
           <Route path={'/'} element={<StartPage />} />

@@ -8,6 +8,7 @@ const initialState: ICommonState = {
   currentUser: INITIAL_USER,
   theme: 'default',
   isAuthModalOpen: false,
+  isLoading: false,
   language: 'RU',
 };
 
@@ -21,6 +22,9 @@ export const counterSlice = createSlice({
     toggleAuthModalState: state => {
       state.isAuthModalOpen = !state.isAuthModalOpen;
     },
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     setTheme: (state, action) => {
       state.theme = action.payload;
     },
@@ -30,6 +34,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { setUser, toggleAuthModalState, setTheme, setLanguage } = counterSlice.actions;
+export const { setUser, toggleAuthModalState, setIsLoading, setTheme, setLanguage } = counterSlice.actions;
 
 export default counterSlice.reducer;

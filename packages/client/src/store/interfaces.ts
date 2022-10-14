@@ -13,5 +13,6 @@ export interface ICommonState {
   currentUser: InitialUserType;
   theme: string;
   isAuthModalOpen: boolean;
+  isLoading: boolean;
   language: string;
 }
