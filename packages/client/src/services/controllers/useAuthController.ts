@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { setUser, toggleAuthModalState } from '../../store/commonSlice';
+import { setIsLoading, setUser, toggleAuthModalState } from '../../store/commonSlice';
 import { INITIAL_USER } from '../../store/constants';
 import { useAppDispatch } from '../../store/hooks';
 import { handleError } from '../../utils/apiHandler';
@@ -13,6 +13,7 @@ const useAuthController = () => {
   const navigate = useNavigate();
 
   function signUpController(formData: AuthApiSignUp) {
+    dispatch(setIsLoading(true));
     signUp(formData)
       .then(r => {
         if (!r.ok) throw new Error(r.statusText);
@@ -25,10 +26,12 @@ const useAuthController = () => {
         dispatch(setUser(r));
         dispatch(toggleAuthModalState());
       })
-      .catch(handleError);
+      .catch(handleError)
+      .finally(() => dispatch(setIsLoading(false)));
   }
 
   function signInController(formData: AuthApiSignIn) {
+    dispatch(setIsLoading(true));
     signIn(formData)
       .then(r => {
         if (!r.ok) throw new Error(r.statusText);
@@ -41,10 +44,12 @@ const useAuthController = () => {
         dispatch(setUser(r));
         dispatch(toggleAuthModalState());
       })
-      .catch(handleError);
+      .catch(handleError)
+      .finally(() => dispatch(setIsLoading(false)));
   }
 
   function logoutController() {
+    dispatch(setIsLoading(true));
     logout()
       .then(r => {
         if (!r.ok) throw new Error(r.statusText);
@@ -52,7 +57,8 @@ const useAuthController = () => {
         sessionStorage.clear();
       })
       .then(() => dispatch(setUser(INITIAL_USER)))
-      .catch(handleError);
+      .catch(handleError)
+      .finally(() => dispatch(setIsLoading(false)));
   }
 
   function _getUserController() {
