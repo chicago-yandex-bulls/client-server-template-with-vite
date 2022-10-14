@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
- 
+import CustomCursor from './components/CustomCursor/CustomCursor';
 import { ForumPage } from './components/ForumPage/ForumPage';
 import { GamePage } from './components/GamePage/GamePage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
@@ -21,6 +21,7 @@ export function App(): JSX.Element {
 
   return (
     <div className="App">
+      <CustomCursor />
       <Router>
         <Routes>
           <Route path={'/'} element={<StartPage />} />
