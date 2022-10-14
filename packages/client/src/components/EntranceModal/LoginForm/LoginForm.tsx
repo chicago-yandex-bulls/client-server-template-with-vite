@@ -1,32 +1,20 @@
 import { Button, TextField } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { DEFAULT_FORM_DATA } from './constants';
 import { useStyles } from './useStyles';
 
-import { AuthApiSignIn } from '../../../services/api/AuthApi';
-import authController from '../../../services/controllers/AuthController';
-import { setUser, toggleAuthModalState } from '../../../store/commonSlice';
-import { useAppDispatch } from '../../../store/hooks';
-import { handleError } from '../../../utils/apiHandler';
+import { AuthApiSignIn } from '../../../services/api/useAuthApi';
+import useAuthController from '../../../services/controllers/useAuthController';
 
 const LoginForm = () => {
   const classes = useStyles();
+  const { signInController } = useAuthController();
   const [formData, setFormData] = React.useState<AuthApiSignIn>(DEFAULT_FORM_DATA);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const signInHandler = (e: React.FormEvent) => {
     e.preventDefault();
-
-    authController
-      .signIn({ formData, navigate })
-      .then(r => {
-        dispatch(setUser(r));
-        dispatch(toggleAuthModalState());
-      })
-      .catch(handleError);
+    signInController(formData);
   };
 
   const changeInputDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

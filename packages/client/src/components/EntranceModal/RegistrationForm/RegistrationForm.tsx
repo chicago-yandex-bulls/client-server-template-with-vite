@@ -1,32 +1,20 @@
 import { Button, TextField } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { DEFAULT_FORM_DATA } from './constants';
 import { useStyles } from './useStyles';
 
-import { AuthApiSignUp } from '../../../services/api/AuthApi';
-import authController from '../../../services/controllers/AuthController';
-import { setUser, toggleAuthModalState } from '../../../store/commonSlice';
-import { useAppDispatch } from '../../../store/hooks';
-import { handleError } from '../../../utils/apiHandler';
+import { AuthApiSignUp } from '../../../services/api/useAuthApi';
+import useAuthController from '../../../services/controllers/useAuthController';
 
 const RegistrationForm = () => {
   const classes = useStyles();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const { signUpController } = useAuthController();
   const [formData, setFormData] = React.useState<AuthApiSignUp>(DEFAULT_FORM_DATA);
 
   const signUpHandler = (e: React.FormEvent) => {
     e.preventDefault();
-
-    authController
-      .signUp({ formData, navigate })
-      .then(r => {
-        dispatch(setUser(r));
-        dispatch(toggleAuthModalState());
-      })
-      .catch(handleError);
+    signUpController(formData);
   };
 
   const changeInputDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
