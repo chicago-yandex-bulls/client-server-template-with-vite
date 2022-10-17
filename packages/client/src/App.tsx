@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { ForumPage } from './components/ForumPage/ForumPage';
 import { GamePage } from './components/GamePage/GamePage';
+import LeaderboardPage from './components/LeaderboardPage/LeaderboardPage';
 import Loader from './components/Loader/Loader';
 import NoAuthPage from './components/NoAuthPage/NoAuthPage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
@@ -33,6 +34,7 @@ export function App(): JSX.Element {
           <Route path={'/game'} element={id ? <GamePage /> : <NoAuthPage />} />
           <Route path={'/profile'} element={id ? <ProfilePage /> : <NoAuthPage />} />
           <Route path={'/forum'} element={id ? <ForumPage /> : <NoAuthPage />} />
+          <Route path={'/leaderboard'} element={<LeaderboardPage />} />
           <Route path={'*'} element={<NotFoundPage />} />
         </Routes>
       </Router>

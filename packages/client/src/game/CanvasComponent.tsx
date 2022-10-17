@@ -1,15 +1,21 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { getDistanceBetweenTwoPoints } from './helpers/getDistanceBetweenTwoPoints';
 import { makeCountDownClock } from './helpers/makeCountDownClock';
 import { makeFoodItem } from './helpers/makeFoodItem';
 import { MySnake } from './Snake';
 
+import { setLastScore } from '../store/commonSlice';
+import { useAppDispatch } from '../store/hooks';
+
 const SHOW_LOGS = false;
 
 export function CanvasComponent() {
   const ref = useRef<HTMLCanvasElement>(null);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [score, setScore] = useState<number | null>(null);
 
   const MAP_WIDTH = 1200;
@@ -56,6 +62,8 @@ export function CanvasComponent() {
     snake.showLogs = SHOW_LOGS;
 
     const countDownClock = makeCountDownClock(MAP_WIDTH, MAP_HEIGHT, () => {
+      navigate('/leaderBoard');
+      dispatch(setLastScore(snake.segments.length));
       setScore(snake.segments.length);
     });
 

@@ -6,6 +6,7 @@ import { ICommonState, TInitialUser } from './interfaces';
 
 const initialState: ICommonState = {
   currentUser: INITIAL_USER,
+  lastScore: null,
   theme: 'default',
   isAuthModalOpen: false,
   isLoading: false,
@@ -31,9 +32,13 @@ export const counterSlice = createSlice({
     setLanguage: (state, action) => {
       state.language = action.payload;
     },
+    setLastScore: (state, action: PayloadAction<number | null>) => {
+      state.lastScore = action.payload;
+    },
   },
 });
 
-export const { setUser, toggleAuthModalState, setIsLoading, setTheme, setLanguage } = counterSlice.actions;
+export const { setUser, toggleAuthModalState, setIsLoading, setLastScore, setTheme, setLanguage } =
+  counterSlice.actions;
 
 export default counterSlice.reducer;
