@@ -57,6 +57,12 @@ const useAuthController = () => {
       .finally(() => dispatch(setIsLoading(false)));
   }
 
+  function checkUserAuth() {
+    _getUserController()
+      .then(r => dispatch(setUser(r)))
+      .catch(() => dispatch(setUser(INITIAL_USER)));
+  }
+
   function _getUserController() {
     return getUser()
       .then(r => {
@@ -67,7 +73,7 @@ const useAuthController = () => {
       .catch(handleError);
   }
 
-  return { signInController, signUpController, logoutController };
+  return { signInController, signUpController, logoutController, checkUserAuth };
 };
 
 export default useAuthController;
