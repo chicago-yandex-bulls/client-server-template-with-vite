@@ -1,4 +1,5 @@
 import { TAuthApiSignIn, TAuthApiSignUp } from './useAuthApi';
+import { TAllLeaderData, TUserToLeaderboard } from './useLeaderboardApi';
 
 const DEFAULT_HEADERS = {
   'Content-type': 'application/json; charset=UTF-8',
@@ -14,7 +15,7 @@ interface IBaseApi {
 
 type TPostProps = {
   endpoint: `/${string}`;
-  data?: TAuthApiSignIn | TAuthApiSignUp;
+  data?: TAuthApiSignIn | TAuthApiSignUp | TUserToLeaderboard | TAllLeaderData;
   options?: OptionsType;
 };
 

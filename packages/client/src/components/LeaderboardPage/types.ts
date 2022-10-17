@@ -1,7 +1,12 @@
-export type leaderDataType = {
-  id: number;
-  position: number;
-  nickname: string;
-  scores: number;
+export type TLeaderProps = {
+  id?: number;
+  username: string;
+  points: number;
+  position?: number;
 };
-export type leadersType = Array<leaderDataType>;
+
+export type TLeaderData = {
+  data: TLeaderProps;
+};
+
+export type TLeaders = Array<TLeaderData>;

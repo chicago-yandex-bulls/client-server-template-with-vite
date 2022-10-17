@@ -4,8 +4,7 @@ const SPACE_BETWEEN = 'space-between';
 const FONT_FAMILY = 'Karantina, cursive';
 export const useStyles = makeStyles(theme => ({
   leaderBoard: {
-    // padding: theme.spacing(2),
-    padding: theme.spacing(4),
+    padding: theme.spacing(1, 4, 4),
     backgroundColor: '#00000008',
     borderRadius: theme.spacing(1),
   },
@@ -38,12 +37,20 @@ export const useStyles = makeStyles(theme => ({
   nickName: {
     textTransform: 'uppercase',
     fontFamily: FONT_FAMILY,
-    fontSize: theme.spacing(4),
+    fontSize: theme.spacing(6),
   },
   score: {
     textTransform: 'uppercase',
     fontFamily: FONT_FAMILY,
-    fontSize: theme.spacing(3.5),
+    fontSize: theme.spacing(6),
+  },
+  points: {
+    display: 'inline',
+    marginLeft: theme.spacing(0.5),
+    textTransform: 'uppercase',
+    fontFamily: FONT_FAMILY,
+    fontSize: theme.spacing(3),
+    color: 'red',
   },
   top5: {
     textTransform: 'uppercase',
