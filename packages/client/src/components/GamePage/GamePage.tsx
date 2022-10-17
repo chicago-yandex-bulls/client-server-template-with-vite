@@ -7,6 +7,9 @@ export const GamePage = () => {
   return (
     <Layout>
       <CanvasComponent />
+      <p>
+        To play in fullscreen mode or exit it, please, <b>press Enter</b>
+      </p>
     </Layout>
   );
 };

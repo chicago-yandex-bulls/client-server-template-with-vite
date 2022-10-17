@@ -2,6 +2,7 @@ import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { getDistanceBetweenTwoPoints } from './helpers/getDistanceBetweenTwoPoints';
+import { makeCanvasBackground } from './helpers/makeCanvasBackground';
 import { makeCountDownClock } from './helpers/makeCountDownClock';
 import { makeFoodItem } from './helpers/makeFoodItem';
 import { MySnake } from './Snake';
@@ -10,13 +11,14 @@ const SHOW_LOGS = false;
 
 export function CanvasComponent() {
   const ref = useRef<HTMLCanvasElement>(null);
+  const INITIAL_MAP_WIDTH = 1200;
+  const INITIAL_MAP_HEIGHT = 800;
   const [score, setScore] = useState<number | null>(null);
+  const [mapWidth, setMapWidth] = useState<number>(INITIAL_MAP_WIDTH);
+  const [mapHeight, setMapHeight] = useState<number>(INITIAL_MAP_HEIGHT);
 
-  const MAP_WIDTH = 1200;
-  const MAP_HEIGHT = 800;
-
-  let mousePositionX = MAP_WIDTH / 2;
-  let mousePositionY = MAP_HEIGHT / 2;
+  let mousePositionX = mapWidth / 2;
+  let mousePositionY = mapHeight / 2;
   let boost = false;
 
   function onMouseMove(e: MouseEvent) {
@@ -39,6 +41,40 @@ export function CanvasComponent() {
 
   useEffect(() => {
     const canvas = ref.current;
+
+    const toggleFullScreenHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === 'Escape') {
+        const errorHandler = (err: ErrorEvent) => {
+          console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
+        };
+
+        if (!document.fullscreenElement && e.key !== 'Escape') {
+          canvas
+            .requestFullscreen()
+            .then(() => {
+              setMapWidth(window.innerWidth);
+              setMapHeight(window.innerHeight);
+            })
+            .catch(err => errorHandler(err));
+        } else {
+          document
+            .exitFullscreen()
+            .then(() => {
+              setMapWidth(INITIAL_MAP_WIDTH);
+              setMapHeight(INITIAL_MAP_HEIGHT);
+            })
+            .catch(err => errorHandler(err));
+        }
+      }
+    };
+
+    document.addEventListener('keyup', toggleFullScreenHandler);
+
+    return () => document.removeEventListener('keyup', toggleFullScreenHandler);
+  }, [mapWidth, mapHeight]);
+
+  useEffect(() => {
+    const canvas = ref.current;
     const ctx = canvas?.getContext('2d');
 
     if (!canvas || !ctx) {
@@ -47,17 +83,19 @@ export function CanvasComponent() {
 
     document.addEventListener('mousemove', onMouseMove);
 
-    canvas.width = MAP_WIDTH;
-    canvas.height = MAP_HEIGHT;
+    canvas.width = mapWidth;
+    canvas.height = mapHeight;
 
     let { foodY, foodX, foodImg } = makeFoodItem(canvas.width, canvas.height);
 
     const snake = new MySnake(mousePositionX, mousePositionY, ctx, 'green', 2);
     snake.showLogs = SHOW_LOGS;
 
-    const countDownClock = makeCountDownClock(MAP_WIDTH, MAP_HEIGHT, () => {
+    const countDownClock = makeCountDownClock(mapWidth, mapHeight, () => {
       setScore(snake.segments.length);
     });
+
+    const background = makeCanvasBackground(mapWidth, mapHeight);
 
     const drawLogs = () => {
       if (!SHOW_LOGS) {
@@ -102,12 +140,14 @@ export function CanvasComponent() {
       increaseSnakeIfNeed();
 
       // очищаем все и рисуем карту заново
-      ctx.clearRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
-      ctx.fillStyle = '#1c1c1c'; // фон карты
-      ctx.fillRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
+      ctx.clearRect(0, 0, mapWidth, mapHeight);
 
-      ctx.drawImage(foodImg, foodX, foodY);
+      ctx.fillStyle = '#1c1c1c'; // фон карты
+      ctx.fillRect(0, 0, mapWidth, mapHeight);
+
+      ctx.drawImage(background, 0, 0);
       ctx.drawImage(countDownClock, 0, 0);
+      ctx.drawImage(foodImg, foodX, foodY);
 
       snake.draw();
 
