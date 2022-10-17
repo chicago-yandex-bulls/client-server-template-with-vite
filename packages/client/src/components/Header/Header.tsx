@@ -6,14 +6,13 @@ import { useStyles } from './useStyles';
 
 import { toggleAuthModalState } from '../../store/commonSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { IS_AUTHORIZED_KEY } from '../../utils/constants';
 import EntranceModal from '../EntranceModal/EntranceModal';
 
 const Header = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { isAuthModalOpen } = useAppSelector(state => state.common);
-  const isAuthorized = !!sessionStorage.getItem(IS_AUTHORIZED_KEY);
+  const { isAuthModalOpen, currentUser } = useAppSelector(state => state.common);
+  const { id } = currentUser;
   const dispatch = useAppDispatch();
 
   const openEntranceModalHandler = () => {
@@ -47,9 +46,9 @@ const Header = () => {
           <Button
             size={'medium'}
             variant={'outlined'}
-            onClick={isAuthorized ? openProfilePageHandler : openEntranceModalHandler}
+            onClick={id ? openProfilePageHandler : openEntranceModalHandler}
             className={classes.signButton}>
-            {isAuthorized ? 'Profile' : 'Sign in'}
+            {id ? 'Profile' : 'Sign in'}
           </Button>
         </div>
       </div>

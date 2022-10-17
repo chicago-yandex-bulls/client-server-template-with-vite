@@ -1,6 +1,6 @@
 import useBaseApi from './useBaseApi';
 
-export type AuthApiSignUp = {
+export type TAuthApiSignUp = {
   first_name: string;
   second_name: string;
   login: string;
@@ -10,7 +10,7 @@ export type AuthApiSignUp = {
   repeat_password: string;
 };
 
-export type AuthApiSignIn = {
+export type TAuthApiSignIn = {
   login: string;
   password: string;
 };
@@ -18,16 +18,12 @@ export type AuthApiSignIn = {
 const useAuthApi = () => {
   const { post, get } = useBaseApi({ path: '/auth' });
 
-  function signUp(data: AuthApiSignUp) {
-    return post('/signup', {
-      body: JSON.stringify(data),
-    });
+  function signUp(data: TAuthApiSignUp) {
+    return post({ endpoint: '/signup', data });
   }
 
-  function signIn(data: AuthApiSignIn) {
-    return post('/signin', {
-      body: JSON.stringify(data),
-    });
+  function signIn(data: TAuthApiSignIn) {
+    return post({ endpoint: '/signin', data });
   }
 
   function getUser() {
@@ -35,7 +31,7 @@ const useAuthApi = () => {
   }
 
   function logout() {
-    return post('/logout');
+    return post({ endpoint: '/logout' });
   }
 
   return { signUp, signIn, getUser, logout };

@@ -4,21 +4,19 @@ import { setIsLoading, setUser, toggleAuthModalState } from '../../store/commonS
 import { INITIAL_USER } from '../../store/constants';
 import { useAppDispatch } from '../../store/hooks';
 import { handleError } from '../../utils/apiHandler';
-import { IS_AUTHORIZED_KEY } from '../../utils/constants';
-import useAuthApi, { AuthApiSignIn, AuthApiSignUp } from '../api/useAuthApi';
+import useAuthApi, { TAuthApiSignIn, TAuthApiSignUp } from '../api/useAuthApi';
 
 const useAuthController = () => {
   const { signUp, signIn, getUser, logout } = useAuthApi();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  function signUpController(formData: AuthApiSignUp) {
+  function signUpController(formData: TAuthApiSignUp) {
     dispatch(setIsLoading(true));
     signUp(formData)
       .then(r => {
         if (!r.ok) throw new Error(r.statusText);
         navigate('/');
-        sessionStorage.setItem(IS_AUTHORIZED_KEY, 'true');
 
         return _getUserController();
       })
@@ -30,13 +28,12 @@ const useAuthController = () => {
       .finally(() => dispatch(setIsLoading(false)));
   }
 
-  function signInController(formData: AuthApiSignIn) {
+  function signInController(formData: TAuthApiSignIn) {
     dispatch(setIsLoading(true));
     signIn(formData)
       .then(r => {
         if (!r.ok) throw new Error(r.statusText);
         navigate('/');
-        sessionStorage.setItem(IS_AUTHORIZED_KEY, 'true');
 
         return _getUserController();
       })
@@ -54,7 +51,6 @@ const useAuthController = () => {
       .then(r => {
         if (!r.ok) throw new Error(r.statusText);
         navigate('/');
-        sessionStorage.clear();
       })
       .then(() => dispatch(setUser(INITIAL_USER)))
       .catch(handleError)

@@ -5,12 +5,11 @@ import { useStyles } from './useStyles';
 
 import useAuthController from '../../services/controllers/useAuthController';
 import { useAppSelector } from '../../store/hooks';
-import { InitialUserType } from '../../store/interfaces';
 import Layout from '../Layout/Layout';
 
 const ProfilePage = () => {
   const classes = useStyles();
-  const { first_name, second_name } = useAppSelector<InitialUserType>(state => state.common.currentUser);
+  const { first_name, second_name } = useAppSelector(state => state.common.currentUser);
   const { logoutController } = useAuthController();
 
   return (

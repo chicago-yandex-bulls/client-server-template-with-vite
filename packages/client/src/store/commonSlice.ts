@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { INITIAL_USER } from './constants';
-import { ICommonState, InitialUserType } from './interfaces';
+import { ICommonState, TInitialUser } from './interfaces';
 
 const initialState: ICommonState = {
   currentUser: INITIAL_USER,
@@ -16,7 +16,7 @@ export const counterSlice = createSlice({
   name: 'common',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<InitialUserType>) => {
+    setUser: (state, action: PayloadAction<TInitialUser>) => {
       state.currentUser = action.payload;
     },
     toggleAuthModalState: state => {

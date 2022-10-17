@@ -1,4 +1,4 @@
-export type InitialUserType = {
+export type TInitialUser = {
   id: number | null;
   first_name: string;
   second_name: string;
@@ -10,7 +10,7 @@ export type InitialUserType = {
 };
 
 export interface ICommonState {
-  currentUser: InitialUserType;
+  currentUser: TInitialUser;
   theme: string;
   isAuthModalOpen: boolean;
   isLoading: boolean;

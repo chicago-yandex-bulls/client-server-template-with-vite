@@ -1,3 +1,5 @@
+import { TAuthApiSignIn, TAuthApiSignUp } from './useAuthApi';
+
 const DEFAULT_HEADERS = {
   'Content-type': 'application/json; charset=UTF-8',
 };
@@ -9,6 +11,12 @@ interface IBaseApi {
   path?: `/${string}`;
   headers?: Record<string, string>;
 }
+
+type TPostProps = {
+  endpoint: `/${string}`;
+  data?: TAuthApiSignIn | TAuthApiSignUp;
+  options?: OptionsType;
+};
 
 const useBaseApi = (config: IBaseApi = {}) => {
   const { baseUrl = 'https://ya-praktikum.tech/api/v2', headers = DEFAULT_HEADERS, path = '' } = config;
@@ -26,8 +34,10 @@ const useBaseApi = (config: IBaseApi = {}) => {
     return options;
   }
 
-  function post(endpoint: `/${string}`, options?: OptionsType) {
-    return fetch(getPath() + endpoint, handleOptions({ ...options, method: 'POST' }));
+  function post({ endpoint, data, options }: TPostProps) {
+    const body = data ? JSON.stringify(data) : '';
+
+    return fetch(getPath() + endpoint, handleOptions({ ...options, method: 'POST', body }));
   }
 
   function get(endpoint: `/${string}`, options?: OptionsType) {

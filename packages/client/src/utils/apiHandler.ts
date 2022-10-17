@@ -8,7 +8,7 @@ export function handleError(error: XMLHttpRequest) {
   }
 
   const { reason } = JSON.parse(error.response);
-  console.log(reason);
+  console.error(reason);
 
   return Promise.reject(error);
 }
