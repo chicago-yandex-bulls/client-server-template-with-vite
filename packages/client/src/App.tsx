@@ -19,14 +19,6 @@ export function App(): JSX.Element {
 
   useEffect(() => {
     checkUserAuth();
-
-    const fetchServerData = async () => {
-      const response = await fetch('http://localhost:3001');
-      const data = await response.json();
-      console.log(data);
-    };
-
-    fetchServerData();
   }, []);
 
   return (
@@ -37,7 +29,7 @@ export function App(): JSX.Element {
         <Route path={'/game'} element={id ? <GamePage /> : <NoAuthPage />} />
         <Route path={'/profile'} element={id ? <ProfilePage /> : <NoAuthPage />} />
         <Route path={'/forum'} element={id ? <ForumPage /> : <NoAuthPage />} />
-        <Route path={'/leaderboard'} element={<LeaderboardPage />} />
+        <Route path={'/leaderboard'} element={id ? <LeaderboardPage /> : <NoAuthPage />} />
         <Route path={'*'} element={<NotFoundPage />} />
       </Routes>
     </div>

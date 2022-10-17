@@ -18,3 +18,7 @@ useCustomTheme.typography.h1 = {
   fontWeight: 'bold',
   fontFamily: 'Karantina, cursive',
 };
+useCustomTheme.typography.h2 = {
+  fontWeight: 'normal',
+  fontFamily: 'Karantina, cursive',
+};
