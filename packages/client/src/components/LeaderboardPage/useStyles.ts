@@ -4,7 +4,10 @@ const SPACE_BETWEEN = 'space-between';
 const FONT_FAMILY = 'Karantina, cursive';
 export const useStyles = makeStyles(theme => ({
   leaderBoard: {
-    padding: theme.spacing(2),
+    // padding: theme.spacing(2),
+    padding: theme.spacing(4),
+    backgroundColor: '#00000008',
+    borderRadius: theme.spacing(1),
   },
   leaderRow: {
     display: 'flex',

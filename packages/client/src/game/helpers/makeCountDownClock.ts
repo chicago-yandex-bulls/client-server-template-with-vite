@@ -1,4 +1,4 @@
-const MILLISECONDS_LIMIT = 60 * 1000;
+const MILLISECONDS_LIMIT = 2 * 1000;
 
 // изменяет линию таймера в зависимости от пройденного времени и отрисовывает кол-во оставшихся секунд
 const changeCountDown = (params: {
@@ -14,9 +14,7 @@ const changeCountDown = (params: {
     const dateNow = new Date();
     const dateNowMs = dateNow.getTime();
 
-    const remainingMs = Math.ceil(
-      MILLISECONDS_LIMIT - (dateNowMs - dateStartMs)
-    );
+    const remainingMs = Math.ceil(MILLISECONDS_LIMIT - (dateNowMs - dateStartMs));
     const remainingSeconds = Math.ceil(remainingMs / 1000);
     const remainingSecondsStr =
       remainingSeconds >= 10 ? remainingSeconds.toString() : '0' + remainingSeconds.toString();
@@ -53,11 +51,7 @@ const changeCountDown = (params: {
 };
 
 // создает рисунок с линией таймера и кол-вом оставшихся секунд
-export const makeCountDownClock = (
-  mapWidth: number,
-  mapHeight: number,
-  onTimeOut: () => void
-) => {
+export const makeCountDownClock = (mapWidth: number, mapHeight: number, onTimeOut: () => void) => {
   const canvas = document.createElement('canvas');
   canvas.width = mapWidth;
   canvas.height = mapHeight;

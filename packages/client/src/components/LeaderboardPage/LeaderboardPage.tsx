@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 
+import GameFinalScreen from './GameFinalScreen/GameFinalScreen';
 import { leaderDataType, leadersType } from './types';
 import { useStyles } from './useStyles';
 
 import { leaderBoardsleaders } from '../../mocks';
+import { useAppSelector } from '../../store/hooks';
 import Layout from '../Layout/Layout';
 
 type leaderRowType = FC<leaderDataType>;
@@ -24,6 +26,7 @@ const LeaderRow: leaderRowType = ({ scores, nickname, position }) => {
 
 const LeaderboardPage = () => {
   const styles = useStyles();
+  const { lastScore } = useAppSelector(state => state.common);
   const [leaders, setLeaders] = useState<leadersType>();
   useEffect(() => {
     //  Допустим тут будем обращаться к апи.
@@ -32,6 +35,7 @@ const LeaderboardPage = () => {
 
   return (
     <Layout>
+      {lastScore !== null && <GameFinalScreen score={lastScore} />}
       <div className={styles.leaderBoard}>
         <div className={styles.header}>
           <div className={styles.top5}>
