@@ -1,4 +1,4 @@
-const MILLISECONDS_LIMIT = 60 * 1000;
+const MILLISECONDS_LIMIT = 2 * 1000;
 
 // изменяет линию таймера в зависимости от пройденного времени и отрисовывает кол-во оставшихся секунд
 const changeCountDown = (params: {
