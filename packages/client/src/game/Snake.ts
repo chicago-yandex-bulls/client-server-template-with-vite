@@ -35,7 +35,7 @@ export class MySnake {
     ctx: CanvasRenderingContext2D,
     color?: TSnakeColor,
     initialSnakeLength = 20,
-    size = 24,
+    size = 24
   ) {
     this.x = x;
     this.y = y;
