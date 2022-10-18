@@ -18,9 +18,9 @@ export type TAuthApiSignIn = {
 const useOAuthApi = () => {
   const { post, get } = useBaseApi({ path: '/oauth/yandex' });
 
-  function signIn(data: any) {
-    return post({ endpoint: '/', data });
-  }
+  // function signIn(data: any) {
+  //   return post({ endpoint: '/', data });
+  // }
 
   function getServiceId(redirectUrl: string) {
     return get(`/service-id?redirect_uri=${redirectUrl}`);

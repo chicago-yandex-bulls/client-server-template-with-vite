@@ -1,7 +1,7 @@
 import useOAuthApi from '../api/useOAuthApi';
 
 const useOAuthController = () => {
-  const { signIn, getServiceId } = useOAuthApi();
+  const { getServiceId } = useOAuthApi();
 
   async function makeYandexAuth(redirectUrl: string) {
     const { service_id } = await _getServiceId(redirectUrl);
