@@ -6,10 +6,12 @@ import { useStyles } from './useStyles';
 
 import { TAuthApiSignIn } from '../../../services/api/useAuthApi';
 import useAuthController from '../../../services/controllers/useAuthController';
+import useOAuthController from '../../../services/controllers/useOAuthController';
 
 const LoginForm = () => {
   const classes = useStyles();
   const { signInController } = useAuthController();
+  const { makeYandexAuth } = useOAuthController();
   const [formData, setFormData] = React.useState<TAuthApiSignIn>(DEFAULT_FORM_DATA);
 
   const signInHandler = (e: React.FormEvent) => {
@@ -21,6 +23,10 @@ const LoginForm = () => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const oAuthHandler = () => {
+    makeYandexAuth('http://127.0.0.1:3000/');
   };
 
   return (
@@ -53,6 +59,9 @@ const LoginForm = () => {
           Sign in
         </Button>
       </div>
+      <Button className={classes.button} variant={'contained'} onClick={oAuthHandler}>
+        OAuth
+      </Button>
     </form>
   );
 };
