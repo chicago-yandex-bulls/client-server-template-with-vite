@@ -141,6 +141,7 @@ export function CanvasComponent() {
   return (
     <>
       <canvas
+        id={'game'}
         style={{
           cursor: 'none',
         }}
@@ -151,7 +152,7 @@ export function CanvasComponent() {
       <Dialog open={!!score} onClose={handleClose}>
         <DialogTitle>Your score: {score}</DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button onClick={handleClose} variant="outlined" color="primary" autoFocus>
             Play again
           </Button>
         </DialogActions>
@@ -159,3 +160,4 @@ export function CanvasComponent() {
     </>
   );
 }
+
