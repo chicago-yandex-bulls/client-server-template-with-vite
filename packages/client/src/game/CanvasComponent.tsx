@@ -63,7 +63,7 @@ export function CanvasComponent() {
     snake.showLogs = SHOW_LOGS;
 
     const countDownClock = makeCountDownClock(MAP_WIDTH, MAP_HEIGHT, () => {
-      navigate('/leaderBoard');
+      navigate('/leaderboard');
       dispatch(setLastScore(snake.segments.length));
       setScore(snake.segments.length);
 
@@ -125,7 +125,6 @@ export function CanvasComponent() {
       snake.draw();
 
       drawLogs();
-
     };
 
     const intervalId = setInterval(sendCoordsLoop, 0);
