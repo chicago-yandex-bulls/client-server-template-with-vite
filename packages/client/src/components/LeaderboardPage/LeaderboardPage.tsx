@@ -31,10 +31,13 @@ const LeaderboardPage = () => {
         </div>
         {leaders &&
           leaders.map((gamer: TLeaderData, index: number) => {
-            const { id, username, points } = gamer.data;
-            if (!username) return;
+            const { username, points } = gamer.data;
 
-            return <LeaderRow key={id} username={username} points={points} position={index + 1} />;
+            if (!username) {
+              return;
+            }
+
+            return <LeaderRow key={username} username={username} points={points} position={index + 1} />;
           })}
       </div>
     </Layout>

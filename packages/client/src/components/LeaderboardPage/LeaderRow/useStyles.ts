@@ -28,6 +28,7 @@ export const useStyles = makeStyles(theme => ({
   score: {
     textTransform: 'uppercase',
     fontSize: theme.spacing(6),
+    marginLeft: 'auto',
   },
   points: {
     display: 'inline',

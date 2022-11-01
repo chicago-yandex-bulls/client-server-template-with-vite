@@ -22,9 +22,9 @@ const LeaderRow: TleaderRow = ({ points, username, position }) => {
       </div>
       <Typography variant={'h2'} className={styles.score}>
         {points}
-        <Typography variant={'h2'} className={styles.points}>
-          points
-        </Typography>
+      </Typography>
+      <Typography variant={'h2'} className={styles.points}>
+        points
       </Typography>
     </div>
   );

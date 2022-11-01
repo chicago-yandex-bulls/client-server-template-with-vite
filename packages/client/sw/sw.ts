@@ -42,7 +42,7 @@ SW.addEventListener('fetch', async event => {
 
   const isCheckOnlineParam = url.searchParams.get(CHECK_ONLINE_STATUS_PARAM);
 
-  if (isCheckOnlineParam) {
+  if (isCheckOnlineParam || request.clone().method === 'POST') {
     event.respondWith(fetch(request));
   } else {
     event.respondWith(networkFirst(request));
