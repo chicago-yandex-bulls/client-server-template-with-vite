@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { handleError } from '../../utils/apiHandler';
 import useAuthApi, { TAuthApiSignIn, TAuthApiSignUp } from '../api/useAuthApi';
 
-const useAuthController = () => {
+export const authController = () => {
   const { signUp, signIn, getUser, logout } = useAuthApi();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -75,5 +75,3 @@ const useAuthController = () => {
 
   return { signInController, signUpController, logoutController, checkUserAuth };
 };
-
-export default useAuthController;

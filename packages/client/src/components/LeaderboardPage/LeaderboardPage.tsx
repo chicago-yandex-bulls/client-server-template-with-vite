@@ -5,18 +5,18 @@ import LeaderRow from './LeaderRow/LeaderRow';
 import { TLeaderData, TLeaders } from './types';
 import { useStyles } from './useStyles';
 
-import useLeaderboardController from '../../services/controllers/useLeaderboardController';
+import { leaderboardController } from '../../services/controllers/leaderboardController';
 import { useAppSelector } from '../../store/hooks';
 import Layout from '../Layout/Layout';
 
-const LeaderboardPage = () => {
+export const LeaderboardPage = () => {
   const styles = useStyles();
   const { lastScore } = useAppSelector(state => state.common);
   const [leaders, setLeaders] = useState<TLeaders>([]);
-  const { getAllLeaderboard } = useLeaderboardController();
+  const { getTeamLeaderboard } = leaderboardController();
 
   useEffect(() => {
-    getAllLeaderboard(setLeaders);
+    getTeamLeaderboard(setLeaders);
   }, []);
 
   return (
@@ -33,9 +33,7 @@ const LeaderboardPage = () => {
           leaders.map((gamer: TLeaderData, index: number) => {
             const { username, points } = gamer.data;
 
-            if (!username) {
-              return;
-            }
+            if (!username) return;
 
             return <LeaderRow key={username} username={username} points={points} position={index + 1} />;
           })}
@@ -43,5 +41,3 @@ const LeaderboardPage = () => {
     </Layout>
   );
 };
-
-export default LeaderboardPage;

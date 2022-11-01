@@ -12,9 +12,9 @@ import ErrorBoundary from './components/ErrorBoundaries/ErrorBoundaries';
 import { store } from './store/store';
 import { useCustomTheme } from './useCustomTheme';
 
-import { addServiceWorker } from '../sw/addServiceWorker';
+// import { addServiceWorker } from '../sw/addServiceWorker';
 
-addServiceWorker();
+// addServiceWorker();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

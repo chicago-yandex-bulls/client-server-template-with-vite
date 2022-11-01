@@ -5,7 +5,7 @@ import { useStyles } from './useStyles';
 
 import Layout from '../Layout/Layout';
 
-const NotFoundPage = () => {
+export const NotFoundPage = () => {
   const classes = useStyles();
 
   return (
@@ -23,5 +23,3 @@ const NotFoundPage = () => {
     </Layout>
   );
 };
-
-export default NotFoundPage;

@@ -5,11 +5,11 @@ import { DEFAULT_FORM_DATA } from './constants';
 import { useStyles } from './useStyles';
 
 import { TAuthApiSignIn } from '../../../services/api/useAuthApi';
-import useAuthController from '../../../services/controllers/useAuthController';
+import { authController } from '../../../services/controllers/authController';
 
 const LoginForm = () => {
   const classes = useStyles();
-  const { signInController } = useAuthController();
+  const { signInController } = authController();
   const [formData, setFormData] = React.useState<TAuthApiSignIn>(DEFAULT_FORM_DATA);
 
   const signInHandler = (e: React.FormEvent) => {

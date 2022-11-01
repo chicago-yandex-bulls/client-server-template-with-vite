@@ -1,5 +1,4 @@
-import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { getDistanceBetweenTwoPoints } from './helpers/getDistanceBetweenTwoPoints';
@@ -7,6 +6,7 @@ import { makeCountDownClock } from './helpers/makeCountDownClock';
 import { makeFoodItem } from './helpers/makeFoodItem';
 import { MySnake } from './Snake';
 
+import cursor from '../../public/cursor.svg';
 import { setLastScore } from '../store/commonSlice';
 import { useAppDispatch } from '../store/hooks';
 
@@ -16,7 +16,6 @@ export function CanvasComponent() {
   const ref = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [score, setScore] = useState<number | null>(null);
   let loopId: number | null = null;
 
   const MAP_WIDTH = 1200;
@@ -65,7 +64,6 @@ export function CanvasComponent() {
     const countDownClock = makeCountDownClock(MAP_WIDTH, MAP_HEIGHT, () => {
       navigate('/leaderboard');
       dispatch(setLastScore(snake.segments.length));
-      setScore(snake.segments.length);
 
       if (loopId) {
         cancelAnimationFrame(loopId);
@@ -141,28 +139,16 @@ export function CanvasComponent() {
     };
   }, []);
 
-  const handleClose = () => {
-    window.location.reload();
-  };
-
   return (
     <>
       <canvas
         style={{
-          cursor: 'none',
+          cursor: `url(${cursor}), pointer`,
         }}
         ref={ref}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
       />
-      <Dialog open={!!score} onClose={handleClose}>
-        <DialogTitle>Your score: {score}</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Play again
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

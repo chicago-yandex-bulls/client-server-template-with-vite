@@ -3,7 +3,7 @@ import { setIsLoading } from '../../store/commonSlice';
 import { useAppDispatch } from '../../store/hooks';
 import useLeaderboardApi, { TUserToLeaderboardData } from '../api/useLeaderboardApi';
 
-const useLeaderboardController = () => {
+export const leaderboardController = () => {
   const { addUser, getAll, getTeam } = useLeaderboardApi();
   const dispatch = useAppDispatch();
   const ALL_LEADERBOARD_DATA = {
@@ -28,9 +28,9 @@ const useLeaderboardController = () => {
       .finally(() => dispatch(setIsLoading(false)));
   }
 
-  function getTeamLeaderboard(teamName: string, callback: (leaders: TLeaders) => void) {
+  function getTeamLeaderboard(callback: (leaders: TLeaders) => void) {
     dispatch(setIsLoading(true));
-    getTeam(ALL_LEADERBOARD_DATA, teamName)
+    getTeam(ALL_LEADERBOARD_DATA)
       .then(r => r.json())
       .then(r => callback(r))
       .catch(e => console.error(e))
@@ -39,5 +39,3 @@ const useLeaderboardController = () => {
 
   return { addUserToLeaderboard, getAllLeaderboard, getTeamLeaderboard };
 };
-
-export default useLeaderboardController;

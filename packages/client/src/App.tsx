@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import CustomCursor from './components/CustomCursor/CustomCursor';
 import { ForumPage } from './components/ForumPage/ForumPage';
 import { GamePage } from './components/GamePage/GamePage';
-import LeaderboardPage from './components/LeaderboardPage/LeaderboardPage';
+import { LeaderboardPage } from './components/LeaderboardPage/LeaderboardPage';
 import Loader from './components/Loader/Loader';
-import NoAuthPage from './components/NoAuthPage/NoAuthPage';
-import NotFoundPage from './components/NotFoundPage/NotFoundPage';
-import ProfilePage from './components/ProfilePage/ProfilePage';
+import { NoAuthPage } from './components/NoAuthPage/NoAuthPage';
+import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
+import { ProfilePage } from './components/ProfilePage/ProfilePage';
 import { StartPage } from './components/StartPage/StartPage';
-import useAuthController from './services/controllers/useAuthController';
+import { authController } from './services/controllers/authController';
 import { useAppSelector } from './store/hooks';
 
 export function App(): JSX.Element {
-  const { checkUserAuth } = useAuthController();
+  const { checkUserAuth } = authController();
   const { isLoading, currentUser } = useAppSelector(state => state.common);
   const { id } = currentUser;
 
@@ -32,7 +31,6 @@ export function App(): JSX.Element {
 
   return (
     <div className="App">
-      <CustomCursor />
       {isLoading && <Loader />}
       <Routes>
         <Route path={'/'} element={<StartPage />} />

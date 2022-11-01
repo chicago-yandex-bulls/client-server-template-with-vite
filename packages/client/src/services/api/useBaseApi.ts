@@ -13,7 +13,7 @@ interface IBaseApi {
   headers?: Record<string, string>;
 }
 
-type TPostProps = {
+type TPostMethodProps = {
   endpoint: `/${string}`;
   data?: TAuthApiSignIn | TAuthApiSignUp | TUserToLeaderboard | TAllLeaderData;
   options?: OptionsType;
@@ -35,7 +35,7 @@ const useBaseApi = (config: IBaseApi = {}) => {
     return options;
   }
 
-  function post({ endpoint, data, options }: TPostProps) {
+  function post({ endpoint, data, options }: TPostMethodProps) {
     const body = data ? JSON.stringify(data) : '';
 
     return fetch(getPath() + endpoint, handleOptions({ ...options, method: 'POST', body }));

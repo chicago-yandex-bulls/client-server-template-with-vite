@@ -3,14 +3,14 @@ import React from 'react';
 
 import { useStyles } from './useStyles';
 
-import useAuthController from '../../services/controllers/useAuthController';
+import { authController } from '../../services/controllers/authController';
 import { useAppSelector } from '../../store/hooks';
 import Layout from '../Layout/Layout';
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
   const classes = useStyles();
   const { first_name, second_name } = useAppSelector(state => state.common.currentUser);
-  const { logoutController } = useAuthController();
+  const { logoutController } = authController();
 
   return (
     <Layout>
@@ -27,5 +27,3 @@ const ProfilePage = () => {
     </Layout>
   );
 };
-
-export default ProfilePage;

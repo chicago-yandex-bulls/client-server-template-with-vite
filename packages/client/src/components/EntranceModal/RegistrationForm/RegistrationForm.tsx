@@ -5,11 +5,11 @@ import { DEFAULT_FORM_DATA } from './constants';
 import { useStyles } from './useStyles';
 
 import { TAuthApiSignUp } from '../../../services/api/useAuthApi';
-import useAuthController from '../../../services/controllers/useAuthController';
+import { authController } from '../../../services/controllers/authController';
 
 const RegistrationForm = () => {
   const classes = useStyles();
-  const { signUpController } = useAuthController();
+  const { signUpController } = authController();
   const [formData, setFormData] = React.useState<TAuthApiSignUp>(DEFAULT_FORM_DATA);
 
   const signUpHandler = (e: React.FormEvent) => {

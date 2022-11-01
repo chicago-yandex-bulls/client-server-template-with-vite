@@ -7,7 +7,7 @@ import { toggleAuthModalState } from '../../store/commonSlice';
 import { useAppDispatch } from '../../store/hooks';
 import Layout from '../Layout/Layout';
 
-const NoAuthPage = () => {
+export const NoAuthPage = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
@@ -30,5 +30,3 @@ const NoAuthPage = () => {
     </Layout>
   );
 };
-
-export default NoAuthPage;

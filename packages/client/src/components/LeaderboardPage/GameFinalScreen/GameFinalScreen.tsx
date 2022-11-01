@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useStyles } from './useStyles';
 
-import useLeaderboardController from '../../../services/controllers/useLeaderboardController';
+import { leaderboardController } from '../../../services/controllers/leaderboardController';
 import { useAppSelector } from '../../../store/hooks';
 
 const GameFinalScreen = () => {
@@ -12,7 +12,7 @@ const GameFinalScreen = () => {
   const { currentUser, lastScore: score } = useAppSelector(state => state.common);
   const { id, display_name, login } = currentUser;
   const navigate = useNavigate();
-  const { addUserToLeaderboard } = useLeaderboardController();
+  const { addUserToLeaderboard } = leaderboardController();
 
   useEffect(() => {
     addUserToLeaderboard({

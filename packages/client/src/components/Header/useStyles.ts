@@ -25,7 +25,7 @@ export const useStyles = makeStyles(theme => ({
   logoLink: {
     textDecoration: 'none',
 
-    '&:hover > p': {
+    '&:hover > .logoSubtitle': {
       color: 'red',
     },
   },

@@ -29,8 +29,8 @@ const useLeaderboardApi = () => {
     return post({ endpoint: '/all', data });
   }
 
-  function getTeam(data: TAllLeaderData, teamName: string) {
-    return post({ endpoint: `/${teamName}`, data });
+  function getTeam(data: TAllLeaderData) {
+    return post({ endpoint: '/ChicagoTeam', data });
   }
 
   return { addUser, getAll, getTeam };
