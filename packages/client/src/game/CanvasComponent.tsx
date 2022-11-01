@@ -6,6 +6,10 @@ import { makeCountDownClock } from './helpers/makeCountDownClock';
 import { makeFoodItem } from './helpers/makeFoodItem';
 import { MySnake } from './Snake';
 
+import cursor from '../../public/cursor.svg';
+import { setLastScore } from '../store/commonSlice';
+import { useAppDispatch } from '../store/hooks';
+
 const SHOW_LOGS = false;
 
 export function CanvasComponent() {
