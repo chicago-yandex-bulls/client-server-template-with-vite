@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, type LinkProps } from 'react-router-dom';
 
 import { useStyles } from './useStyles';
@@ -15,23 +15,25 @@ type TMenuItem = {
 
 export const StartPage = () => {
   const classes = useStyles();
-  const { data: currentUser } = useGetUserQuery();
+  const { data: currentUser, status: getUserStatus } = useGetUserQuery();
   const { setError, SnackbarErrorComp } = useSnackbarError();
 
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
+  useEffect(() => {
+    if (isStartMenuOpen && getUserStatus === 'rejected') {
+      setError('You will not be included in the leaderboard while you are not authorized');
+    }
+  }, [isStartMenuOpen, getUserStatus]);
+
   const toggleOpenRules = useCallback(() => {
     setIsRulesOpen(!isRulesOpen);
-  }, [setIsRulesOpen, isRulesOpen]);
+  }, [isRulesOpen]);
 
   const toggleStartMenu = useCallback(() => {
-    if (!currentUser?.id) {
-      setError('You will not be included in the ranking of top players while you are not authorized');
-    }
-
     setIsStartMenuOpen(!isStartMenuOpen);
-  }, [setIsStartMenuOpen, isStartMenuOpen]);
+  }, [isStartMenuOpen]);
 
   const MENU_ITEMS: TMenuItem[] = useMemo(
     () => [

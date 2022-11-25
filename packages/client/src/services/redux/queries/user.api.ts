@@ -10,7 +10,6 @@ const userApi = api.injectEndpoints({
         url: 'auth/user',
         ...commonFetchArgs,
       }),
-      forceRefetch: () => true,
       providesTags: ['getUser'],
     }),
     updateAvatar: build.mutation<TUser, FormData>({

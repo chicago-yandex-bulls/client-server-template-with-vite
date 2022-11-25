@@ -5,7 +5,7 @@ export const useStyles = makeStyles(() => ({
   wrapper: {
     border: `1px solid ${grey['900']}`,
     display: 'flex',
-    height: 'calc(100vh - 200px)',
+    height: 'calc(100vh - 202px)',
     borderRadius: '4px',
     width: '100%',
   },

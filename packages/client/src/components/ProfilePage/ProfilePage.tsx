@@ -6,7 +6,7 @@ import { ChangePasswordForm } from './parts/changePasswordForm';
 import { EditProfileForm } from './parts/editProfileForm';
 import { useStyles } from './useStyles';
 
-import { RESOURSES_URL } from '../../../../shared/consts/common';
+import { RESOURCES_URL } from '../../../../shared/consts/common';
 import { isErrorWithReason } from '../../../../shared/types/typeGuards/isErrorWithReason';
 import { useSnackbarError } from '../../hooks/useSnackbarError';
 import { useLogoutMutation } from '../../services/redux/queries/auth.api';
@@ -57,8 +57,7 @@ const ProfilePage = () => {
         <div className={classes.userName}>{first_name}</div>
         <div className={classes.userName}>{second_name}</div>
       </div>
-
-      <Avatar className={classes.avatar} src={RESOURSES_URL + avatar}>
+      <Avatar className={classes.avatar} src={RESOURCES_URL + avatar}>
         <PersonIcon className={classes.personIcon} />
       </Avatar>
       <Button className={classes.uploadBtn} color="info" variant="contained" component="label">
