@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ColorIndicator } from './parts/ColorIndicator';
 import { useStyles } from './useStyles';
 
+import { RESOURSES_URL } from '../../../../shared/consts/common';
 import type { TPlayer } from '../../../../shared/types';
 import { useGetUserQuery } from '../../services/redux/queries/user.api';
 import { setGame } from '../../services/redux/reducers/common.reducer';
@@ -76,7 +77,7 @@ export const WaitingRoomPage = () => {
               {players.map((row: TPlayer) => (
                 <TableRow key={row.user.login} className={classes.login}>
                   <TableCell>
-                    <Avatar src={row.user.avatar}>{getAuthorInitials({ ...row.user })}</Avatar>
+                    <Avatar src={RESOURSES_URL + row.user.avatar}>{getAuthorInitials({ ...row.user })}</Avatar>
                   </TableCell>
                   <TableCell>{[row.user.first_name, row.user.second_name].join('\u00a0')}</TableCell>
                   <TableCell width="100%" align="center">
