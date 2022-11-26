@@ -187,7 +187,7 @@ export const MultiGameCanvas = () => {
       <canvas
         ref={ref}
         style={{
-          cursor: `url(${CursorPng}), default`,
+          cursor: `url(${CursorPng}) 24 24, default`,
         }}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}

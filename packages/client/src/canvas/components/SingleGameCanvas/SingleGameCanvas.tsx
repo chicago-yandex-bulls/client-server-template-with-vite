@@ -121,7 +121,7 @@ export function SingleGameCanvas() {
   return (
     <div
       style={{
-        cursor: `url(${CursorPng}), default`,
+        cursor: `url(${CursorPng}) 24 24, default`,
       }}>
       <canvas ref={ref} onMouseDown={onMouseDown} onMouseUp={onMouseUp} />
     </div>
