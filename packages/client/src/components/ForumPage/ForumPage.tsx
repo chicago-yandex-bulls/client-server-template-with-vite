@@ -13,7 +13,8 @@ import { MemoizedComment } from './parts/Comment';
 import { TEMP_DATA } from './tempData';
 import { useStyles } from './useStyles';
 
-import { useIsUserAuthorized } from '../../hooks/useIsUserAuthorized';
+import { getUserIdSelector } from '../../services/redux/selectors/getUserSelector';
+import { useAppSelector } from '../../services/redux/store';
 import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
 import { getAuthorInitials } from '../../utils/getAuthorInitials';
 import { getCreatedAtValue } from '../../utils/getCreatedAtValue';
@@ -21,7 +22,9 @@ import Layout from '../Layout/Layout';
 
 export const ForumPage = () => {
   const classes = useStyles();
-  const { isUserAuthorized } = useIsUserAuthorized();
+
+  const isUserAuthorized = !!useAppSelector(getUserIdSelector);
+
   const isOnline = useNavigatorOnLine();
 
   const canUserWrite = isUserAuthorized && isOnline;

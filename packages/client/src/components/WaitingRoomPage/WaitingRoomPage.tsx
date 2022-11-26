@@ -7,15 +7,15 @@ import { useStyles } from './useStyles';
 
 import { RESOURCES_URL } from '../../../../shared/consts/common';
 import type { TPlayer } from '../../../../shared/types';
-import { useGetUserQuery } from '../../services/redux/queries/user.api';
 import { setGame } from '../../services/redux/reducers/common.reducer';
+import { getUserSelector } from '../../services/redux/selectors/getUserSelector';
 import { useAppDispatch, useAppSelector } from '../../services/redux/store';
 import { socket } from '../../services/socket/socket';
 import { getAuthorInitials } from '../../utils/getAuthorInitials';
 import Layout from '../Layout/Layout';
 
 export const WaitingRoomPage = () => {
-  const { data: currentUser } = useGetUserQuery();
+  const { data: currentUser } = useAppSelector(getUserSelector);
 
   const { currentGame } = useAppSelector(state => state.common);
   const { roomId, players } = currentGame || {};

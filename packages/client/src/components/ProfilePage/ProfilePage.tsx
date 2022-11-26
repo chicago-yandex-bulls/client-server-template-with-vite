@@ -2,15 +2,17 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Avatar, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import React, { useState } from 'react';
 
-import { ChangePasswordForm } from './parts/changePasswordForm';
-import { EditProfileForm } from './parts/editProfileForm';
+import { ChangePasswordForm } from './parts/ChangePasswordForm';
+import { EditProfileForm } from './parts/EditProfileForm';
 import { useStyles } from './useStyles';
 
 import { RESOURCES_URL } from '../../../../shared/consts/common';
 import { isErrorWithReason } from '../../../../shared/types/typeGuards/isErrorWithReason';
 import { useSnackbarError } from '../../hooks/useSnackbarError';
 import { useLogoutMutation } from '../../services/redux/queries/auth.api';
-import { useGetUserQuery, useUpdateAvatarMutation } from '../../services/redux/queries/user.api';
+import { useUpdateAvatarMutation } from '../../services/redux/queries/user.api';
+import { getUserSelector } from '../../services/redux/selectors/getUserSelector';
+import { useAppSelector } from '../../services/redux/store';
 import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
 import Layout from '../Layout/Layout';
 
@@ -22,7 +24,7 @@ const ProfilePage = () => {
 
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
-  const { data } = useGetUserQuery();
+  const { data } = useAppSelector(getUserSelector);
 
   const [logout] = useLogoutMutation();
   const [updateAvatar] = useUpdateAvatarMutation();

@@ -12,8 +12,8 @@ import {
 import type { TGame, TPlayer, TPosition } from '../../../../../shared/types';
 import CursorPng from '../../../assets/cursor.png';
 import { SNAKE_REDUCTION_TIME } from '../../../consts/settings';
-import { useGetUserQuery } from '../../../services/redux/queries/user.api';
 import { setGame } from '../../../services/redux/reducers/common.reducer';
+import { getUserSelector } from '../../../services/redux/selectors/getUserSelector';
 import { useAppDispatch, useAppSelector } from '../../../services/redux/store';
 import { socket } from '../../../services/socket/socket';
 import { fixPositionForMap } from '../../../utils/fixPositionForMap';
@@ -23,7 +23,7 @@ import { makeCountDownClock } from '../../makers/makeCountDownClock';
 import { makeFoodItem } from '../../makers/makeFoodItem';
 
 export const MultiGameCanvas = () => {
-  const { data: currentUser } = useGetUserQuery();
+  const { data: currentUser } = useAppSelector(getUserSelector);
 
   const dispatch = useAppDispatch();
 

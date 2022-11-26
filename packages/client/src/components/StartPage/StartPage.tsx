@@ -6,7 +6,8 @@ import { useStyles } from './useStyles';
 
 import { PreviewAnimationCanvas } from '../../canvas/components/PreviewAnimationCanvas/PreviewAnimationCanvas';
 import { useSnackbarError } from '../../hooks/useSnackbarError';
-import { useGetUserQuery } from '../../services/redux/queries/user.api';
+import { getUserIdSelector } from '../../services/redux/selectors/getUserSelector';
+import { useAppSelector } from '../../services/redux/store';
 import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
 import Layout from '../Layout/Layout';
 
@@ -18,17 +19,22 @@ export const StartPage = () => {
   const classes = useStyles();
   const isOnline = useNavigatorOnLine();
 
-  const { data: currentUser, status: getUserStatus } = useGetUserQuery();
+  const currentUserId = useAppSelector(getUserIdSelector);
+
   const { setError, SnackbarErrorComp } = useSnackbarError();
 
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
   useEffect(() => {
-    if ((isStartMenuOpen && getUserStatus === 'rejected') || !isOnline) {
+    if (isStartMenuOpen && !currentUserId) {
       setError('You will not be included in the leaderboard while you are not authorized');
     }
-  }, [isStartMenuOpen, getUserStatus]);
+
+    if (!isOnline) {
+      setError('You will not be included in the leaderboard because you are offline');
+    }
+  }, [isStartMenuOpen, currentUserId, isOnline]);
 
   const toggleOpenRules = useCallback(() => {
     setIsRulesOpen(!isRulesOpen);
@@ -59,11 +65,15 @@ export const StartPage = () => {
       },
       {
         itemName: 'MULTIPLAYER',
-        to: currentUser?.id ? '/create-or-join-game' : '#',
+        to: currentUserId && isOnline ? '/create-or-join-game' : '#',
         type: 'link',
         onClick: () => {
-          if (!currentUser?.id) {
+          if (!currentUserId) {
             setError('Multiplayer is available only for authorized users');
+          }
+
+          if (!isOnline) {
+            setError('Multiplayer is available only online');
           }
         },
       },
@@ -73,7 +83,7 @@ export const StartPage = () => {
         type: 'button',
       },
     ],
-    [toggleStartMenu]
+    [toggleStartMenu, currentUserId]
   );
 
   return (
