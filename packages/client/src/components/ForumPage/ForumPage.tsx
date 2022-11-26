@@ -14,6 +14,7 @@ import { TEMP_DATA } from './tempData';
 import { useStyles } from './useStyles';
 
 import { useIsUserAuthorized } from '../../hooks/useIsUserAuthorized';
+import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
 import { getAuthorInitials } from '../../utils/getAuthorInitials';
 import { getCreatedAtValue } from '../../utils/getCreatedAtValue';
 import Layout from '../Layout/Layout';
@@ -21,6 +22,10 @@ import Layout from '../Layout/Layout';
 export const ForumPage = () => {
   const classes = useStyles();
   const { isUserAuthorized } = useIsUserAuthorized();
+  const isOnline = useNavigatorOnLine();
+
+  const canUserWrite = isUserAuthorized && isOnline;
+
   const [selectedTheme, setSelectedTheme] = useState<TTheme | null>(null);
   const [commentValue, setCommentValue] = useState<string>('');
 
@@ -74,7 +79,7 @@ export const ForumPage = () => {
               </Typography>
               <div className={classes.comments}>
                 <Typography variant={'h6'}>Comments: {selectedTheme.discussions?.length || 0}</Typography>
-                {isUserAuthorized && (
+                {canUserWrite && (
                   <TextField
                     label="Write a comment"
                     multiline
@@ -86,7 +91,7 @@ export const ForumPage = () => {
                     }}
                   />
                 )}
-                {isUserAuthorized && (
+                {canUserWrite && (
                   <Button
                     variant={'text'}
                     color={'info'}
@@ -98,7 +103,7 @@ export const ForumPage = () => {
                 )}
                 <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
                   {selectedTheme.discussions?.map(comment => (
-                    <MemoizedComment key={comment.id} data={comment} isUserAuthorized={isUserAuthorized} />
+                    <MemoizedComment key={comment.id} data={comment} canUserWrite={canUserWrite} />
                   ))}
                 </TreeView>
               </div>

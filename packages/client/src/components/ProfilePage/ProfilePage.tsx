@@ -11,10 +11,13 @@ import { isErrorWithReason } from '../../../../shared/types/typeGuards/isErrorWi
 import { useSnackbarError } from '../../hooks/useSnackbarError';
 import { useLogoutMutation } from '../../services/redux/queries/auth.api';
 import { useGetUserQuery, useUpdateAvatarMutation } from '../../services/redux/queries/user.api';
+import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
 import Layout from '../Layout/Layout';
 
 const ProfilePage = () => {
   const classes = useStyles();
+  const isOnline = useNavigatorOnLine();
+
   const { SnackbarErrorComp, setError } = useSnackbarError();
 
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
@@ -60,7 +63,7 @@ const ProfilePage = () => {
       <Avatar className={classes.avatar} src={RESOURCES_URL + avatar}>
         <PersonIcon className={classes.personIcon} />
       </Avatar>
-      <Button className={classes.uploadBtn} color="info" variant="contained" component="label">
+      <Button className={classes.uploadBtn} color="info" variant="contained" component="label" disabled={!isOnline}>
         Upload
         <input hidden accept="image/*" type="file" onChange={handleChangeAvatar} />
       </Button>
@@ -74,6 +77,7 @@ const ProfilePage = () => {
           className={classes.btnChangeProfile}
           variant="contained"
           color="secondary"
+          disabled={!isOnline}
           onClick={() => {
             setIsEditProfileOpen(true);
           }}>
@@ -83,6 +87,7 @@ const ProfilePage = () => {
           className={classes.btnChangePassword}
           variant="contained"
           color="secondary"
+          disabled={!isOnline}
           onClick={() => {
             setIsChangePasswordOpen(true);
           }}>
@@ -90,7 +95,7 @@ const ProfilePage = () => {
         </Button>
       </div>
       <div className={classes.roundLogout}>
-        <Button className={classes.btnLogout} variant="contained" onClick={logoutHandler}>
+        <Button className={classes.btnLogout} variant="contained" onClick={logoutHandler} disabled={!isOnline}>
           Logout
         </Button>
       </div>

@@ -7,6 +7,7 @@ import { useStyles } from './useStyles';
 import { PreviewAnimationCanvas } from '../../canvas/components/PreviewAnimationCanvas/PreviewAnimationCanvas';
 import { useSnackbarError } from '../../hooks/useSnackbarError';
 import { useGetUserQuery } from '../../services/redux/queries/user.api';
+import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
 import Layout from '../Layout/Layout';
 
 type TMenuItem = {
@@ -15,6 +16,8 @@ type TMenuItem = {
 
 export const StartPage = () => {
   const classes = useStyles();
+  const isOnline = useNavigatorOnLine();
+
   const { data: currentUser, status: getUserStatus } = useGetUserQuery();
   const { setError, SnackbarErrorComp } = useSnackbarError();
 
@@ -22,7 +25,7 @@ export const StartPage = () => {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (isStartMenuOpen && getUserStatus === 'rejected') {
+    if ((isStartMenuOpen && getUserStatus === 'rejected') || !isOnline) {
       setError('You will not be included in the leaderboard while you are not authorized');
     }
   }, [isStartMenuOpen, getUserStatus]);
