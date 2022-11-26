@@ -4,6 +4,7 @@ import { getDistanceBetweenTwoPoints } from '../../../shared/utils';
 import { drawPlayerSnake } from '../canvas/drawers/drawPlayerSnake';
 import { makeSnakeSegment } from '../canvas/makers/makeSnakeSegment';
 import { SNAKE_REDUCTION_TIME } from '../consts/settings';
+import { fixPositionForMap } from '../utils/fixPositionForMap';
 
 export class Snake {
   // Флаг для откусывания жопки по таймауту
@@ -63,7 +64,8 @@ export class Snake {
     }
   }
 
-  move(x: number, y: number, boost = false) {
+  move(cursorX: number, cursorY: number, boost = false) {
+    const { x, y } = fixPositionForMap({ x: cursorX, y: cursorY });
     const distanceToMouse = getDistanceBetweenTwoPoints({ x: this.x, y: this.y }, { x, y });
 
     // Если голова достигла курсора мыши, то змейка останавливается и пересчитывать ее кординаты не нужно
