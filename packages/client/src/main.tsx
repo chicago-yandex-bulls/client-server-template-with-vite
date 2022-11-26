@@ -12,8 +12,9 @@ import ErrorBoundary from './components/ErrorBoundaries/ErrorBoundaries';
 import { store } from './services/redux/store';
 import { addServiceWorker } from './services/sw/addServiceWorker';
 import { useCustomTheme } from './useCustomTheme';
+import { getEnv } from './utils/getEnv';
 
-if (import.meta.env.MODE === 'production') {
+if (getEnv('MODE') === 'production') {
   addServiceWorker();
 }
 
@@ -34,7 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Provider store={store}>
           <ErrorBoundary>
             <App />
-            <div style={versionStrStyle}>Version: {import.meta.env.VITE_CLIENT_VERSION}</div>
+            <div style={versionStrStyle}>Version: {getEnv('VITE_CLIENT_VERSION')}</div>
           </ErrorBoundary>
         </Provider>
       </StyledEngineProvider>

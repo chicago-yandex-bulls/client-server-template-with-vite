@@ -1,6 +1,6 @@
 import { Close } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
-import React from 'react';
+import React, { memo } from 'react';
 
 import LoginForm from './LoginForm/LoginForm';
 import RegistrationForm from './RegistrationForm/RegistrationForm';
@@ -45,4 +45,4 @@ const EntranceModal = () => {
   );
 };
 
-export default React.memo(EntranceModal);
+export default memo(EntranceModal);
