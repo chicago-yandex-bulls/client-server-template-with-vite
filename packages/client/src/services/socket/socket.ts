@@ -9,11 +9,3 @@ const SERVER_SOCKET_URL = getEnv('MODE') === 'production' ? CHICAGO_SOCKET_URL :
 export const socket: Socket<IServerToClientEvents, IClientToServerEvents> = io(SERVER_SOCKET_URL, {
   transports: ['websocket'],
 });
-
-socket.on('connect', () => {
-  console.info('Socket connected');
-});
-
-socket.on('disconnect', () => {
-  console.info('Socket disconnected');
-});
