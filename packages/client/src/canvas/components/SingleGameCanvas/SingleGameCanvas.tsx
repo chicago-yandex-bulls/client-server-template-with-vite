@@ -5,6 +5,7 @@ import { getDistanceBetweenTwoPoints } from '../../../../../shared/utils';
 import { getRandomItem } from '../../../../../shared/utils/getRandomItem';
 import CursorPng from '../../../assets/cursor.png';
 import { Snake } from '../../../game/Snake';
+import { fixPositionForMap } from '../../../utils/fixPositionForMap';
 import { randomIntFromInterval } from '../../../utils/randomIntFromInterfal';
 import { drawMap } from '../../drawers/drawMap';
 import { makeCountDownClock } from '../../makers/makeCountDownClock';
@@ -33,8 +34,13 @@ export function SingleGameCanvas() {
       throw Error('Not found canvas');
     }
 
-    mousePositionX = Math.ceil(e.clientX - ref.current.getBoundingClientRect().left);
-    mousePositionY = Math.ceil(e.clientY - ref.current.getBoundingClientRect().top);
+    const { x, y } = fixPositionForMap({
+      x: Math.ceil(e.clientX - ref.current.getBoundingClientRect().left),
+      y: Math.ceil(e.clientY - ref.current.getBoundingClientRect().top),
+    });
+
+    mousePositionX = x;
+    mousePositionY = y;
   }
 
   function onMouseDown() {
