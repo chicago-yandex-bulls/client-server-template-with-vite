@@ -23,6 +23,7 @@ export const useStyles = makeStyles(() => ({
   commentCount: {
     display: 'flex',
     width: '50px',
+    minWidth: '50px',
     marginLeft: '10px',
   },
   themeContainer: {

@@ -52,6 +52,7 @@ const Comment = ({ data, canUserWrite }: TProps) => {
           <div className={classes.textareaAnswer}>
             <TextField
               fullWidth
+              color='secondary'
               label="Write an answer"
               multiline
               rows={3}

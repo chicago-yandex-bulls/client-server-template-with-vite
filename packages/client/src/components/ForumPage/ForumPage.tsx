@@ -45,9 +45,9 @@ export const ForumPage = () => {
               key={item.id}
               onClick={setSelectedTheme.bind(null, item)}>
               <div className={classes.themeItem}>
-                {item.title}
+                <div> {item.title}</div>
                 <div className={classes.commentCount}>
-                  <CommentIcon color={'info'} /> {item.discussions?.length || 0}
+                  <CommentIcon fontSize="small" color="secondary" /> {item.discussions?.length || 0}
                 </div>
               </div>
             </ListItemButton>
@@ -84,6 +84,7 @@ export const ForumPage = () => {
                 <Typography variant={'h6'}>Comments: {selectedTheme.discussions?.length || 0}</Typography>
                 {canUserWrite && (
                   <TextField
+                    color="secondary"
                     label="Write a comment"
                     multiline
                     rows={3}
