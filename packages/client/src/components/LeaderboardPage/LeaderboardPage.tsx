@@ -1,27 +1,23 @@
-import { useEffect, useState } from 'react';
-
 import GameFinalScreen from './GameFinalScreen/GameFinalScreen';
 import LeaderRow from './LeaderRow/LeaderRow';
-import { TLeaderData, TLeaders } from './types';
+import { TLeaderData } from './types';
 import { useStyles } from './useStyles';
 
-import { leaderboardController } from '../../services/controllers/leaderboardController';
-import { useAppSelector } from '../../store/hooks';
-import Layout from '../Layout/Layout';
+import { useGetAllQuery } from '../../services/redux/queries/leaderboard.api';
+import { useAppSelector } from '../../services/redux/store';
+import { Layout } from '../Layout/Layout';
+import Loader from '../Loader/Loader';
 
 export const LeaderboardPage = () => {
+  const { data: leaders, isLoading } = useGetAllQuery('');
   const styles = useStyles();
   const { lastScore } = useAppSelector(state => state.common);
-  const [leaders, setLeaders] = useState<TLeaders>([]);
-  const { getTeamLeaderboard } = leaderboardController();
 
-  useEffect(() => {
-    getTeamLeaderboard(setLeaders);
-  }, []);
-
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Layout>
-      {lastScore !== null && <GameFinalScreen />}
+      {lastScore !== null && <GameFinalScreen points={lastScore} />}
       <div className={styles.leaderBoard}>
         <div className={styles.header}>
           <div className={styles.top5}>
@@ -29,14 +25,17 @@ export const LeaderboardPage = () => {
           </div>
           <div className={styles.title}>leader board</div>
         </div>
-        {leaders &&
+        {leaders.length ? (
           leaders.map((gamer: TLeaderData, index: number) => {
-            const { username, points } = gamer.data;
+            const { username, login = 'Unnamed user', points } = gamer.data;
 
-            if (!username) return;
-
-            return <LeaderRow key={username} username={username} points={points} position={index + 1} />;
-          })}
+            return <LeaderRow key={index} username={username || login} points={points} position={index + 1} />;
+          })
+        ) : (
+          <p className={styles.plug}>
+            There is no any leader yet.<span>So,</span> you can be the first one!
+          </p>
+        )}
       </div>
     </Layout>
   );

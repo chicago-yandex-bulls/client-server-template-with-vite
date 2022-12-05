@@ -1,26 +1,26 @@
 import { Button, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useStyles } from './useStyles';
 
-import { leaderboardController } from '../../../services/controllers/leaderboardController';
-import { useAppSelector } from '../../../store/hooks';
+import { useAddUserMutation } from '../../../services/redux/queries/leaderboard.api';
+import { getUserLoginSelector } from '../../../services/redux/selectors/getUserSelector';
+import { useAppSelector } from '../../../services/redux/store';
 
-const GameFinalScreen = () => {
+type TGameFinalScreenProps = {
+  points: number;
+};
+
+const GameFinalScreen = ({ points }: TGameFinalScreenProps) => {
   const classes = useStyles();
-  const { currentUser, lastScore: score } = useAppSelector(state => state.common);
-  const { id, display_name, login } = currentUser;
+  const login = useAppSelector(getUserLoginSelector);
   const navigate = useNavigate();
-  const { addUserToLeaderboard } = leaderboardController();
+  const [addUser] = useAddUserMutation();
 
   useEffect(() => {
-    addUserToLeaderboard({
-      id: id || 0,
-      username: display_name || login,
-      points: score || 0,
-    });
-  }, []);
+    addUser({ points, login });
+  }, [points]);
 
   const newGameHandler = () => {
     navigate('/game');
@@ -30,7 +30,7 @@ const GameFinalScreen = () => {
     <div className={classes.wrapper}>
       <div>
         <Typography className={classes.subTitle}>
-          Your score is: <b>{score} points</b>
+          Your score is: <b>{points} points</b>
         </Typography>
         <Button className={classes.button} variant={'outlined'} onClick={newGameHandler}>
           Play again!

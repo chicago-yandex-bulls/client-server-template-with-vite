@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useStyles } from './useStyles';
 
-import Layout from '../Layout/Layout';
+import { Layout } from '../Layout/Layout';
 
 export const NotFoundPage = () => {
   const classes = useStyles();

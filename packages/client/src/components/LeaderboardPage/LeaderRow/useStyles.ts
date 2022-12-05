@@ -1,6 +1,7 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { type Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   leaderRow: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -10,7 +11,7 @@ export const useStyles = makeStyles(theme => ({
     alignItems: 'flex-end',
   },
   nickNameWrapper: {
-    flexBasis: '200px',
+    flexBasis: theme.spacing(100),
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'baseline',

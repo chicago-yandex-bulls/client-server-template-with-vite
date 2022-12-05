@@ -9,25 +9,35 @@ import { App } from './App';
 import 'normalize.css';
 import './index.css';
 import ErrorBoundary from './components/ErrorBoundaries/ErrorBoundaries';
-import { store } from './store/store';
+import { store } from './services/redux/store';
+import { addServiceWorker } from './services/sw/addServiceWorker';
 import { useCustomTheme } from './useCustomTheme';
 
-// import { addServiceWorker } from '../sw/addServiceWorker';
+if (import.meta.env.MODE === 'production') {
+  addServiceWorker();
+}
 
-// addServiceWorker();
+const versionStrStyle: React.CSSProperties = {
+  position: 'fixed',
+  margin: 'auto 0 10px 10px',
+  bottom: 0,
+  left: 0,
+  color: 'black',
+  opacity: 0.5,
+  fontSize: '12px',
+};
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <Router>
-      <ThemeProvider theme={useCustomTheme}>
-        <StyledEngineProvider injectFirst>
-          <Provider store={store}>
-            <ErrorBoundary>
-              <App />
-            </ErrorBoundary>
-          </Provider>
-        </StyledEngineProvider>
-      </ThemeProvider>
-    </Router>
-  </React.StrictMode>
+  <Router>
+    <ThemeProvider theme={useCustomTheme}>
+      <StyledEngineProvider injectFirst>
+        <Provider store={store}>
+          <ErrorBoundary>
+            <App />
+            <div style={versionStrStyle}>Version: {import.meta.env.VITE_CLIENT_VERSION}</div>
+          </ErrorBoundary>
+        </Provider>
+      </StyledEngineProvider>
+    </ThemeProvider>
+  </Router>
 );

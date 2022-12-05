@@ -1,28 +1,48 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-import React, { useCallback, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, type LinkProps } from 'react-router-dom';
 
 import { useStyles } from './useStyles';
 
-import { PreviewAnimationCanvas } from '../../game/preview/PreviewAnimationCanvas';
-import Layout from '../Layout/Layout';
+import { PreviewAnimationCanvas } from '../../canvas/components/PreviewAnimationCanvas/PreviewAnimationCanvas';
+import { useSnackbarError } from '../../hooks/useSnackbarError';
+import { getUserIdSelector } from '../../services/redux/selectors/getUserSelector';
+import { useAppSelector } from '../../services/redux/store';
+import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
+import { Layout } from '../Layout/Layout';
 
 type TMenuItem = {
   itemName: string;
-} & ({ to: string; type: 'link' } | { onClick: () => void; type: 'button' });
+} & (({ type: 'link' } & LinkProps) | { onClick: () => void; type: 'button' });
 
 export const StartPage = () => {
   const classes = useStyles();
+  const isOnline = useNavigatorOnLine();
+
+  const currentUserId = useAppSelector(getUserIdSelector);
+
+  const { setError, SnackbarErrorComp } = useSnackbarError();
+
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
+  useEffect(() => {
+    if (isStartMenuOpen && !currentUserId) {
+      setError('You will not be included in the leaderboard while you are not authorized');
+    }
+
+    if (!isOnline) {
+      setError('You will not be included in the leaderboard because you are offline');
+    }
+  }, [isStartMenuOpen, currentUserId, isOnline]);
+
   const toggleOpenRules = useCallback(() => {
     setIsRulesOpen(!isRulesOpen);
-  }, [setIsRulesOpen, isRulesOpen]);
+  }, [isRulesOpen]);
 
   const toggleStartMenu = useCallback(() => {
     setIsStartMenuOpen(!isStartMenuOpen);
-  }, [setIsStartMenuOpen, isStartMenuOpen]);
+  }, [isStartMenuOpen]);
 
   const MENU_ITEMS: TMenuItem[] = useMemo(
     () => [
@@ -32,8 +52,6 @@ export const StartPage = () => {
         type: 'button',
       },
       { itemName: 'RULES', onClick: toggleOpenRules, type: 'button' },
-      { itemName: 'SETTINGS', to: '/settings', type: 'link' },
-      { itemName: 'LEADER BOARD', to: '/leaderboard', type: 'link' },
     ],
     [toggleStartMenu]
   );
@@ -47,8 +65,17 @@ export const StartPage = () => {
       },
       {
         itemName: 'MULTIPLAYER',
-        to: '/game-online',
+        to: currentUserId && isOnline ? '/create-or-join-game' : '#',
         type: 'link',
+        onClick: () => {
+          if (!currentUserId) {
+            setError('Multiplayer is available only for authorized users');
+          }
+
+          if (!isOnline) {
+            setError('Multiplayer is available only online');
+          }
+        },
       },
       {
         itemName: 'BACK',
@@ -56,22 +83,17 @@ export const StartPage = () => {
         type: 'button',
       },
     ],
-    [toggleStartMenu]
+    [toggleStartMenu, currentUserId]
   );
-
-  const gameResult = window.location.hash;
-  const isVictory = gameResult === '#victory';
-  const isGameOver = gameResult === '#gameover';
-  const title = isVictory ? 'VICTORY!' : isGameOver ? 'GAME OVER' : 'SNAKE GAME';
 
   return (
     <Layout>
       <div className={classes.wrapper}>
-        <div className={classes.title}>{title}</div>
+        <div className={classes.title}>SNAKE GAME</div>
         <div className={classes.menu}>
           {(isStartMenuOpen ? START_MENU_ITEMS : MENU_ITEMS).map(menuItem =>
             menuItem.type === 'link' ? (
-              <Link key={menuItem.itemName} to={menuItem.to} className={classes.menuItem}>
+              <Link key={menuItem.itemName} to={menuItem.to} className={classes.menuItem} onClick={menuItem.onClick}>
                 {menuItem.itemName}
               </Link>
             ) : (
@@ -101,6 +123,7 @@ export const StartPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      <SnackbarErrorComp />
     </Layout>
   );
 };

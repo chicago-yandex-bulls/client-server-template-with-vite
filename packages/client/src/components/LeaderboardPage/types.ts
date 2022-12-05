@@ -1,5 +1,6 @@
 export type TLeaderProps = {
-  username: string;
+  username?: string;
+  login?: string;
   points: number;
   position?: number;
 };

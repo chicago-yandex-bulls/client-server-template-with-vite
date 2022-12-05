@@ -1,12 +1,10 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { type Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
 const SPACE_BETWEEN = 'space-between';
-const FONT_FAMILY = 'Karantina, cursive';
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   leaderBoard: {
-    padding: theme.spacing(1, 4, 4),
-    backgroundColor: '#00000008',
-    borderRadius: theme.spacing(1),
+    padding: theme.spacing(2),
   },
   leaderRow: {
     display: 'flex',
@@ -31,30 +29,18 @@ export const useStyles = makeStyles(theme => ({
   },
   position: {
     textTransform: 'uppercase',
-    fontFamily: FONT_FAMILY,
     fontSize: theme.spacing(7),
   },
   nickName: {
     textTransform: 'uppercase',
-    fontFamily: FONT_FAMILY,
-    fontSize: theme.spacing(6),
+    fontSize: theme.spacing(4),
   },
   score: {
     textTransform: 'uppercase',
-    fontFamily: FONT_FAMILY,
-    fontSize: theme.spacing(6),
-  },
-  points: {
-    display: 'inline',
-    marginLeft: theme.spacing(0.5),
-    textTransform: 'uppercase',
-    fontFamily: FONT_FAMILY,
-    fontSize: theme.spacing(3),
-    color: 'red',
+    fontSize: theme.spacing(3.5),
   },
   top5: {
     textTransform: 'uppercase',
-    fontFamily: FONT_FAMILY,
     fontSize: theme.spacing(7.5),
     color: theme.palette.text.primary,
     '& span': {
@@ -64,8 +50,14 @@ export const useStyles = makeStyles(theme => ({
   },
   title: {
     textTransform: 'uppercase',
-    fontFamily: FONT_FAMILY,
     fontSize: theme.spacing(7.5),
     color: theme.palette.text.primary,
+  },
+  plug: {
+    fontSize: theme.spacing(6),
+    textAlign: 'center',
+    '& span': {
+      color: 'red',
+    },
   },
 }));
