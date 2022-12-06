@@ -6,18 +6,6 @@ export type TUserToLeaderboardData = {
   points: number;
 };
 
-export type TUserToLeaderboard = {
-  data: TUserToLeaderboardData;
-  ratingFieldName: string;
-  teamName: string;
-};
-
-export type TAllLeaderData = {
-  ratingFieldName: string;
-  cursor: number;
-  limit: number;
-};
-
 export const ALL_LEADERBOARD_DATA = {
   ratingFieldName: 'points',
   cursor: 0,
