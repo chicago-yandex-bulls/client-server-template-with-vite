@@ -8,20 +8,20 @@ import { SnakeIcon } from '../../../SnakeIcon';
 
 type TPlayerRecordProps = {
   place: number;
-  name: string;
+  name: string | null;
   points: number;
-  color: TSnakeColor;
+  color: TSnakeColor | null;
   isCurrentPlayer: boolean;
 };
 
 export const PlayerRecord = (props: TPlayerRecordProps) => {
-  const { place, name, points, color = 'red', isCurrentPlayer } = props;
+  const { place, name = 'unnamed', points, color, isCurrentPlayer } = props;
   const classes = useStyles();
 
   return (
     <div className={`${classes.wrapper} ${isCurrentPlayer && classes.currentPlayer}`}>
       <p className={classes.place}>{place}</p>
-      <SnakeIcon color={PRETTY_SNAKE_COLORS[color]} />
+      <SnakeIcon color={PRETTY_SNAKE_COLORS[color || 'red']} />
       <p className={classes.login}>
         {name} <span>{isCurrentPlayer && '(you)'}</span>
       </p>

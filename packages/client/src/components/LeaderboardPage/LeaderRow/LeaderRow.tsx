@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import React, { FC } from 'react';
+import { FC, memo } from 'react';
 
 import { useStyles } from './useStyles';
 
@@ -30,4 +30,5 @@ const LeaderRow: TleaderRow = ({ points, username, position }) => {
   );
 };
 
-export default React.memo(LeaderRow);
+const LeaderRowHOC = memo(LeaderRow);
+export { LeaderRowHOC as LeaderRow };

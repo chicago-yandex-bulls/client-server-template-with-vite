@@ -3,8 +3,8 @@ import { TGame, TSnakeColor } from '../../../../../shared/types';
 export interface IMultiPLayerScore {
   points: number;
   id: number | null;
-  login: string;
-  color: TSnakeColor;
+  login: string | null;
+  color: TSnakeColor | null;
 }
 
 export interface ICommonState {
@@ -12,5 +12,5 @@ export interface ICommonState {
   isAuthModalOpen: boolean;
   language: 'RU';
   currentGame: TGame | null;
-  lastScore: null | number | IMultiPLayerScore[];
+  lastScore: null | IMultiPLayerScore[];
 }

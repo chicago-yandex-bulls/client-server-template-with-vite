@@ -1,23 +1,24 @@
-import GameFinalScreen from './GameFinalScreen/GameFinalScreen';
-import LeaderRow from './LeaderRow/LeaderRow';
+import { GameFinalScreen } from './GameFinalScreen/GameFinalScreen';
+import { LeaderRow } from './LeaderRow/LeaderRow';
 import { TLeaderData } from './types';
 import { useStyles } from './useStyles';
 
 import { useGetAllQuery } from '../../services/redux/queries/leaderboard.api';
 import { useAppSelector } from '../../services/redux/store';
 import { Layout } from '../Layout/Layout';
-import Loader from '../Loader/Loader';
+import { Loader } from '../Loader/Loader';
 
 export const LeaderboardPage = () => {
   const { data: leaders, isLoading } = useGetAllQuery('');
   const styles = useStyles();
   const { lastScore } = useAppSelector(state => state.common);
+  const isFinalScreen = lastScore && lastScore.length;
 
   return isLoading ? (
     <Loader />
   ) : (
     <Layout>
-      {lastScore !== null && <GameFinalScreen points={lastScore} />}
+      {isFinalScreen && <GameFinalScreen playersResult={lastScore} />}
       <div className={styles.leaderBoard}>
         <div className={styles.header}>
           <div className={styles.top5}>

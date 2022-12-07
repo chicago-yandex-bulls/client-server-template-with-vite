@@ -11,32 +11,32 @@ import { useAppSelector } from '../../../services/redux/store';
 import { IMultiPLayerScore } from '../../../services/redux/types/commonState';
 
 type TGameFinalScreenProps = {
-  points: number | IMultiPLayerScore[];
+  playersResult: IMultiPLayerScore[];
 };
 
-const GameFinalScreen = ({ points }: TGameFinalScreenProps) => {
+export const GameFinalScreen = ({ playersResult }: TGameFinalScreenProps) => {
   const classes = useStyles();
-  const [isMultiplayer, setIsMultiplayer] = useState(false);
   const [singlePlayerScore, setSinglePlayerScore] = useState(2);
   const [players, setPlayers] = useState<IMultiPLayerScore[] | []>([]);
+  const isMultiplayer = playersResult.length > 1;
   const login = useAppSelector(getUserLoginSelector);
   const id = useAppSelector(getUserIdSelector);
   const navigate = useNavigate();
   const [addUser] = useAddUserMutation();
 
   useEffect(() => {
-    if (Array.isArray(points)) {
-      setIsMultiplayer(true);
-      const { points: playerPoints, login: playerLogin } = points.filter(
+    if (isMultiplayer) {
+      const { points: playerPoints, login: playerLogin } = playersResult.filter(
         (player: IMultiPLayerScore) => player.id === id
       )[0];
       addUser({ points: playerPoints, login: playerLogin });
-      setPlayers([...points].sort((a, b) => b.points - a.points));
+      setPlayers([...playersResult].sort((a, b) => b.points - a.points));
     } else {
+      const { points } = playersResult[0];
       setSinglePlayerScore(points);
       addUser({ points, login });
     }
-  }, [points]);
+  }, []);
 
   const newGameHandler = () => {
     navigate(isMultiplayer ? '/create-or-join-game' : '/game');
@@ -65,5 +65,3 @@ const GameFinalScreen = ({ points }: TGameFinalScreenProps) => {
     </>
   );
 };
-
-export default GameFinalScreen;

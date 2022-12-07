@@ -75,7 +75,16 @@ export function SingleGameCanvas() {
       MAP_WIDTH,
       MAP_HEIGHT,
       () => {
-        dispatch(setLastScore(snake.segments.length));
+        dispatch(
+          setLastScore([
+            {
+              id: null,
+              login: null,
+              points: snake.segments.length,
+              color: null,
+            },
+          ])
+        );
         navigate('/leaderboard');
         onEnd();
       }

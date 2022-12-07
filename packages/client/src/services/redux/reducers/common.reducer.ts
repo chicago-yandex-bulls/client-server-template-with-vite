@@ -27,7 +27,7 @@ export const counterSlice = createSlice({
     setGame: (state, action: PayloadAction<TGame | null>) => {
       state.currentGame = action.payload;
     },
-    setLastScore: (state, action: PayloadAction<number | IMultiPLayerScore[] | null>) => {
+    setLastScore: (state, action: PayloadAction<IMultiPLayerScore[] | null>) => {
       state.lastScore = action.payload;
     },
   },

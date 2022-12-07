@@ -101,6 +101,17 @@ export const MultiGameCanvas = () => {
     });
 
     socket.on('finished', () => {
+      dispatch(
+        setLastScore(
+          currentGame.current?.players.map(({ segments, user, color }) => ({
+            id: user.id,
+            login: user.login || user.display_name || user.first_name,
+            points: segments.length,
+            color,
+          })) || null
+        )
+      );
+      navigate('/leaderboard');
       onEnd();
     });
 
@@ -131,17 +142,6 @@ export const MultiGameCanvas = () => {
     }
 
     dispatch(setGame(null));
-    dispatch(
-      setLastScore(
-        currentGame.current?.players.map(({ segments, user, color }) => ({
-          id: user.id,
-          login: user.login || user.display_name || user.first_name,
-          points: segments.length,
-          color,
-        })) || null
-      )
-    );
-    navigate('/leaderboard');
   }
 
   useEffect(() => {
