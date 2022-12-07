@@ -18,17 +18,17 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   position: {
     textTransform: 'uppercase',
-    fontSize: theme.spacing(7),
+    fontSize: theme.spacing(5),
     minWidth: theme.spacing(7),
   },
   nickName: {
     textTransform: 'uppercase',
     textAlign: 'left',
-    fontSize: theme.spacing(6),
+    fontSize: theme.spacing(4),
   },
   score: {
     textTransform: 'uppercase',
-    fontSize: theme.spacing(6),
+    fontSize: theme.spacing(4),
     marginLeft: 'auto',
   },
   points: {

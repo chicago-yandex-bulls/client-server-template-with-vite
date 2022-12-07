@@ -8,5 +8,3 @@ export type TLeaderProps = {
 export type TLeaderData = {
   data: TLeaderProps;
 };
-
-export type TLeaders = Array<TLeaderData>;

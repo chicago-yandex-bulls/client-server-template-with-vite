@@ -75,6 +75,8 @@ export function SingleGameCanvas() {
       MAP_WIDTH,
       MAP_HEIGHT,
       () => {
+        dispatch(setLastScore(snake.segments.length));
+        navigate('/leaderboard');
         onEnd();
       }
     );
@@ -117,8 +119,6 @@ export function SingleGameCanvas() {
 
       document.removeEventListener('mousemove', onMouseMove);
       clearInterval(intervalId);
-      dispatch(setLastScore(snake.segments.length));
-      navigate('/leaderboard');
     }
 
     return onEnd;

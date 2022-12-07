@@ -1,11 +1,5 @@
 import { api, commonFetchArgs } from './api';
 
-export type TUserToLeaderboardData = {
-  id: number;
-  username: string;
-  points: number;
-};
-
 export const ALL_LEADERBOARD_DATA = {
   ratingFieldName: 'points',
   cursor: 0,

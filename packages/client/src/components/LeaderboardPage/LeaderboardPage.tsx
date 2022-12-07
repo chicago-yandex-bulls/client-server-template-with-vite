@@ -29,7 +29,14 @@ export const LeaderboardPage = () => {
           leaders.map((gamer: TLeaderData, index: number) => {
             const { username, login = 'Unnamed user', points } = gamer.data;
 
-            return <LeaderRow key={index} username={username || login} points={points} position={index + 1} />;
+            return (
+              <LeaderRow
+                key={`${username}-${login}`}
+                username={username || login}
+                points={points}
+                position={index + 1}
+              />
+            );
           })
         ) : (
           <p className={styles.plug}>
