@@ -4,9 +4,9 @@
   "description": "",
   "license": "MIT",
   "scripts": {
+    "dev": "NODE_ENV=development nodemon --watch ../client/dist-ssr/entry-server.cjs --watch index.ts index.ts",
     "build": "tsc --p ./tsconfig.prod.json",
-    "preview": "node ./dist/server/index.js",
-    "dev": "NODE_ENV=development nodemon index.ts",
+    "preview": "node dist/server/index.js",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ."

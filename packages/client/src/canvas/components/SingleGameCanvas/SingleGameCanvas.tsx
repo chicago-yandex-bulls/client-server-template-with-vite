@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { FOOD_COLORS, FOOD_SIZE, MAP_HEIGHT, MAP_WIDTH } from '../../../../../shared/consts';
 import { getDistanceBetweenTwoPoints } from '../../../../../shared/utils';
 import { getRandomItem } from '../../../../../shared/utils/getRandomItem';
-import CursorPng from '../../../assets/cursor.png';
+import CursorPng from '../../../assets/image/cursor.png';
 import { Snake } from '../../../game/Snake';
 import { fixPositionForMap } from '../../../utils/fixPositionForMap';
 import { randomIntFromInterval } from '../../../utils/randomIntFromInterfal';
@@ -18,16 +18,6 @@ export function SingleGameCanvas() {
   let mousePositionX = MAP_WIDTH / 2;
   let mousePositionY = MAP_HEIGHT / 2;
   const boost = useRef<boolean>(false);
-
-  let foodX = randomIntFromInterval(50, MAP_WIDTH - 50);
-  let foodY = randomIntFromInterval(50, MAP_HEIGHT - 50);
-  let foodImg = makeFoodItem(getRandomItem(FOOD_COLORS));
-
-  const changeFoodItem = () => {
-    foodX = randomIntFromInterval(50, MAP_WIDTH - 50);
-    foodY = randomIntFromInterval(50, MAP_HEIGHT - 50);
-    foodImg = makeFoodItem(getRandomItem(FOOD_COLORS));
-  };
 
   function onMouseMove(e: MouseEvent) {
     if (!ref.current) {
@@ -52,6 +42,16 @@ export function SingleGameCanvas() {
   }
 
   useEffect(() => {
+    let foodX = randomIntFromInterval(50, MAP_WIDTH - 50);
+    let foodY = randomIntFromInterval(50, MAP_HEIGHT - 50);
+    let foodImg = makeFoodItem(getRandomItem(FOOD_COLORS));
+
+    const changeFoodItem = () => {
+      foodX = randomIntFromInterval(50, MAP_WIDTH - 50);
+      foodY = randomIntFromInterval(50, MAP_HEIGHT - 50);
+      foodImg = makeFoodItem(getRandomItem(FOOD_COLORS));
+    };
+
     const canvas = ref.current;
     const ctx = canvas?.getContext('2d');
 

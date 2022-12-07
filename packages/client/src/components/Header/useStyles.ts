@@ -48,7 +48,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   signButton: {
     padding: theme.spacing(0.5, 3),
-    marginLeft: theme.spacing(2),
     textTransform: 'capitalize',
+    width: '100px',
   },
 }));
