@@ -17,7 +17,7 @@ type TGameFinalScreenProps = {
 export const GameFinalScreen = ({ playersResult }: TGameFinalScreenProps) => {
   const classes = useStyles();
   const [singlePlayerScore, setSinglePlayerScore] = useState(2);
-  const [players, setPlayers] = useState<IMultiPLayerScore[] | []>([]);
+  const [players, setPlayers] = useState<IMultiPLayerScore[]>([]);
   const isMultiplayer = playersResult.length > 1;
   const login = useAppSelector(getUserLoginSelector);
   const id = useAppSelector(getUserIdSelector);
