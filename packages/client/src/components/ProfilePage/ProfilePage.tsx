@@ -15,7 +15,7 @@ import { getUserSelector } from '../../services/redux/selectors/getUserSelector'
 import { useAppSelector } from '../../services/redux/store';
 import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
   const classes = useStyles();
   const isOnline = useNavigatorOnLine();
 
@@ -117,5 +117,3 @@ const ProfilePage = () => {
     </div>
   );
 };
-
-export default ProfilePage;

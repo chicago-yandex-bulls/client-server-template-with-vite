@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useStyles } from './useStyles';
 
-const NotFoundPage = () => {
+export const NotFoundPage = () => {
   const classes = useStyles();
 
   return (
@@ -21,5 +21,3 @@ const NotFoundPage = () => {
     </div>
   );
 };
-
-export default NotFoundPage;

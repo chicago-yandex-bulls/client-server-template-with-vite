@@ -6,7 +6,7 @@ import { useStyles } from './useStyles';
 import { toggleAuthModalState } from '../../services/redux/reducers/common.reducer';
 import { useAppDispatch } from '../../services/redux/store';
 
-const NoAuthPage = () => {
+export const NoAuthPage = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
@@ -29,5 +29,3 @@ const NoAuthPage = () => {
     </div>
   );
 };
-
-export default NoAuthPage;
