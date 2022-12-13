@@ -8,9 +8,6 @@ COPY . ./
 RUN yarn lerna bootstrap
 RUN rm -rf /web/packages/client/dist/
 RUN rm -rf /web/packages/server/dist/
-
-ARG SCOPE
-ENV SCOPE=$SCOPE
-
-RUN yarn build --scope $SCOPE
-CMD yarn preview --scope $SCOPE
+RUN yarn build
+EXPOSE 3001
+CMD yarn preview

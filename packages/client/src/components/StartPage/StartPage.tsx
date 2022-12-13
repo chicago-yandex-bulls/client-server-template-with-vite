@@ -88,7 +88,7 @@ export const StartPage = () => {
   return (
     <div>
       <div className={classes.wrapper}>
-        <div className={classes.title}>SNAKE GAME</div>
+        <div className={classes.title}>SNAKE GAME 2.0</div>
         <div className={classes.menu}>
           {(isStartMenuOpen ? START_MENU_ITEMS : MENU_ITEMS).map(menuItem =>
             menuItem.type === 'link' ? (

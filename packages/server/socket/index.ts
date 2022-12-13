@@ -1,4 +1,4 @@
-import type socketIo from 'socket.io';
+import socketIo from 'socket.io';
 
 import { addChangeCursorPositionEvent } from './addChangeCursorPositionEvent';
 import { addCreateRoomEvent } from './addCreateRoomEvent';
@@ -9,12 +9,25 @@ import { addUserDisconnectedEvent } from './addUserDisconnectedEvent';
 
 import type { IClientToServerEvents, IServerToClientEvents, TGames } from '../../shared/types';
 
+import type { Server } from 'http';
+
 export * from './addCreateRoomEvent';
 export * from './addChangeCursorPositionEvent';
 export * from './addStartEvent';
 export * from './addJoinRoomEvent';
 
-export const addSocket = (io: socketIo.Server<IClientToServerEvents, IServerToClientEvents>) => {
+export const addSocket = (server: Server) => {
+  const { Server } = socketIo;
+
+  const io = new Server<IClientToServerEvents, IServerToClientEvents>(server, {
+    transports: ['websocket', 'polling'],
+    cors: {
+      origin: ['http://localhost:3000'],
+      credentials: true,
+      methods: ['GET', 'POST'],
+      allowedHeaders: ['Access-Control-Allow-Origin'],
+    },
+  });
   const games: TGames = {};
 
   io.on('connection', socket => {
