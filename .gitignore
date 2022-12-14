@@ -6,3 +6,6 @@ dist
 .firebaserc
 firebase.json
 .firebase/*
+pgadmin_data/
+postgres_data/
+postgresdata/

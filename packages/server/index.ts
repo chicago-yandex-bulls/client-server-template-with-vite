@@ -6,8 +6,6 @@ import { sequelize } from './db';
 import { errorHandler } from './middleware/ErrorHandlingMiddleware';
 import { ssrHandler } from './middleware/SSRHandlingMiddleware';
 import { staticHandler } from './middleware/StaticHandlingrMiddleware';
-// @ts-ignore
-import * as models from './models/models';
 import { version } from './package.json';
 import { router } from './routes';
 import { addSocket } from './socket';
@@ -42,7 +40,7 @@ app.use(errorHandler);
 const start = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync();
+    await sequelize.sync({ force: true });
 
     server.listen(port, () => {
       console.log(`  ➜ 🎸 Server is listening on port: ${port}`);

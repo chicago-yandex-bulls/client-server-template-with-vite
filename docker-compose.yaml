@@ -6,11 +6,11 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://postgres:newPassword@postgres:5432/my_db_name
+      DATABASE_URL: postgres://postgres:newPassword@postgres:5432/chicago
       NODE_ENV: production
       PORT: 3001
     ports:
-      - "3001:3001"
+      - "3000:3001"
     restart: always
     networks:
       - awesome
@@ -21,12 +21,11 @@ services:
       - "5432:5432"
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
-      - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: newPassword
-      POSTGRES_DB: my_db_name
+      POSTGRES_DB: chicago
     networks:
       - awesome
   pgadmin:
