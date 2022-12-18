@@ -1,7 +1,8 @@
+import type { Theme } from '@mui/material';
 import { grey, blueGrey } from '@mui/material/colors';
 import { makeStyles } from '@mui/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   wrapper: {
     border: `1px solid ${grey['900']}`,
     display: 'flex',
@@ -19,6 +20,10 @@ export const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
+  },
+  createTopicBtn: {
+    width: '100%',
+    textTransform: 'none',
   },
   commentCount: {
     display: 'flex',
@@ -54,6 +59,7 @@ export const useStyles = makeStyles(() => ({
     borderRadius: '8px',
     padding: '20px',
     marginBottom: '10px',
+    whiteSpace: 'pre-line',
   },
   comments: {
     padding: '0 60px',
@@ -101,5 +107,11 @@ export const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+  },
+  modalWrapper: {
+    marginTop: theme.spacing(1),
+  },
+  input: {
+    marginBottom: theme.spacing(2),
   },
 }));
