@@ -1,6 +1,7 @@
 import { Avatar, Typography } from '@mui/material';
 import React, { memo } from 'react';
 
+import { RESOURCES_URL } from '../../../../../shared/consts/common';
 import { getAuthorInitials } from '../../../utils/getAuthorInitials';
 import { getCreatedAtValue } from '../../../utils/getCreatedAtValue';
 import { TComment } from '../ForumPage.types';
@@ -14,12 +15,12 @@ const Comment = ({ data }: TProps) => {
   const classes = useStyles();
 
   const createdAtValue = getCreatedAtValue(createdAt);
-  const authorInitials = getAuthorInitials(author);
+  const authorInitials = getAuthorInitials(author || {});
 
   return (
     <div className={classes.comment}>
       <div className={classes.commentAuthor}>
-        <Avatar src={author.avatar} sx={{ width: 50, height: 50 }}>
+        <Avatar src={RESOURCES_URL + author.avatar} sx={{ width: 50, height: 50 }}>
           {authorInitials}
         </Avatar>
         <div className={classes.commentAuthorName}>

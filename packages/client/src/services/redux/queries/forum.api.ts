@@ -2,7 +2,6 @@ import { commonFetchArgs, api } from './api';
 
 import { TUser } from '../../../../../shared/types';
 import { TComment, TTheme } from '../../../components/ForumPage/ForumPage.types';
-import { TEMP_DATA } from '../../../components/ForumPage/tempData';
 import { arrOnlyUnique } from '../../../utils/arrOnlyUnique';
 
 async function getUsersByFetch(ids: number[]): Promise<{ [id: number]: TUser }> {
@@ -36,7 +35,16 @@ async function getUsersByFetch(ids: number[]): Promise<{ [id: number]: TUser }> 
   const users = await Promise.all(promises);
 
   users.forEach(user => {
-    result[user.id || 0] = user;
+    result[user.id || 0] = {
+      id: user.id,
+      display_name: user.display_name || '',
+      first_name: user.first_name || '',
+      avatar: user.avatar || '',
+      second_name: user.second_name || '',
+      phone: user.phone || '',
+      login: user.login || '',
+      email: user.email || '',
+    };
   });
 
   return result;
@@ -48,6 +56,16 @@ export const forumApi = api.injectEndpoints({
       query: (data: Pick<TTheme, 'title' | 'content'> & { authorId: number | null }) => ({
         // TODO: изменить url для прода
         url: 'http://localhost:3001/api/topic/add',
+        method: 'POST',
+        body: { data },
+        ...commonFetchArgs,
+      }),
+      invalidatesTags: ['getTopics'],
+    }),
+    createComment: build.mutation({
+      query: (data: Pick<TComment, 'content'> & { authorId: number | null; topicId: number }) => ({
+        // TODO: изменить url для прода
+        url: 'http://localhost:3001/api/comment/add',
         method: 'POST',
         body: { data },
         ...commonFetchArgs,
@@ -75,15 +93,42 @@ export const forumApi = api.injectEndpoints({
           const authorIds: number[] = [];
           data.forEach(item => {
             authorIds.push(item.authorId);
+
+            item.comments?.forEach(comment => {
+              authorIds.push(comment.authorId || 0);
+            });
           });
 
           const users = await getUsersByFetch(authorIds);
 
           data.forEach(item => {
-            item.author = users[item.authorId];
+            item.author = item.authorId
+              ? users[item.authorId]
+              : {
+                  id: null,
+                  display_name: '',
+                  first_name: '',
+                  avatar: '',
+                  second_name: '',
+                  phone: '',
+                  login: '',
+                  email: '',
+                };
 
-            //todo Удалить хардкод для комментариев, когда бэк научится их отдавать
-            item.comments = TEMP_DATA[1].comments;
+            item.comments?.forEach(comment => {
+              comment.author = comment.authorId
+                ? users[comment.authorId]
+                : {
+                    id: null,
+                    display_name: '',
+                    first_name: '',
+                    avatar: '',
+                    second_name: '',
+                    phone: '',
+                    login: '',
+                    email: '',
+                  };
+            });
           });
 
           return data;
@@ -94,4 +139,4 @@ export const forumApi = api.injectEndpoints({
   }),
 });
 
-export const { useCreateTopicMutation, useGetTopicsQuery } = forumApi;
+export const { useCreateTopicMutation, useGetTopicsQuery, useCreateCommentMutation } = forumApi;

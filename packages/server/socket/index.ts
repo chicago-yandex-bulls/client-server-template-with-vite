@@ -22,7 +22,7 @@ export const addSocket = (server: Server) => {
   const io = new Server<IClientToServerEvents, IServerToClientEvents>(server, {
     transports: ['websocket', 'polling'],
     cors: {
-      origin: ['http://localhost:3000'],
+      origin: ['http://localhost:3000', 'http://localhost:3001'],
       credentials: true,
       methods: ['GET', 'POST'],
       allowedHeaders: ['Access-Control-Allow-Origin'],
