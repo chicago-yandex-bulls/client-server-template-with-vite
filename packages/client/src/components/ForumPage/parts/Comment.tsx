@@ -1,18 +1,15 @@
-import { TreeItem } from '@mui/lab';
-import { Avatar, Button, TextField, Typography } from '@mui/material';
-import React, { useState, memo } from 'react';
+import { Avatar, Typography } from '@mui/material';
+import React, { memo } from 'react';
 
 import { getAuthorInitials } from '../../../utils/getAuthorInitials';
 import { getCreatedAtValue } from '../../../utils/getCreatedAtValue';
 import { TComment } from '../ForumPage.types';
 import { useStyles } from '../useStyles';
 
-type TProps = { data: TComment; canUserWrite: boolean };
+type TProps = { data: TComment };
 
-const Comment = ({ data, canUserWrite }: TProps) => {
-  const { author, content, createdAt, answers, id } = data;
-  const [showTextareaComment, setShowTextareaComment] = useState<boolean>(false);
-  const [commentValue, setCommentValue] = useState<string>('');
+const Comment = ({ data }: TProps) => {
+  const { author, content, createdAt } = data;
 
   const classes = useStyles();
 
@@ -35,60 +32,6 @@ const Comment = ({ data, canUserWrite }: TProps) => {
       <Typography variant={'body1'} className={classes.commentContent}>
         {content}
       </Typography>
-      {!showTextareaComment && canUserWrite && (
-        <Button
-          variant={'text'}
-          color={'info'}
-          size={'small'}
-          onClick={() => {
-            setShowTextareaComment(true);
-          }}
-          className={classes.btn}>
-          Reply
-        </Button>
-      )}
-      {showTextareaComment && (
-        <>
-          <div className={classes.textareaAnswer}>
-            <TextField
-              fullWidth
-              color='secondary'
-              label="Write an answer"
-              multiline
-              rows={3}
-              size={'small'}
-              value={commentValue}
-              onChange={e => {
-                setCommentValue(e.target.value);
-              }}
-            />
-          </div>
-          <div className={classes.actions}>
-            <Button
-              variant={'text'}
-              color={'error'}
-              size={'small'}
-              onClick={() => {
-                setShowTextareaComment(false);
-              }}
-              className={classes.btn}>
-              Cancel
-            </Button>
-            <Button variant={'text'} color={'info'} size={'small'} disabled={!commentValue} className={classes.btn}>
-              Send
-            </Button>
-          </div>
-        </>
-      )}
-      {!!answers?.length && (
-        <div className={classes.answers}>
-          <TreeItem nodeId={id.toString()} label={`Ответы: ${answers.length}`}>
-            {answers?.map(answer => (
-              <MemoizedComment key={answer.id} data={answer} canUserWrite={canUserWrite} />
-            ))}
-          </TreeItem>
-        </div>
-      )}
     </div>
   );
 };

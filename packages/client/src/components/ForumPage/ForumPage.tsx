@@ -1,18 +1,14 @@
-import {
-  ExpandMore as ExpandMoreIcon,
-  Comment as CommentIcon,
-  ChevronRight as ChevronRightIcon,
-  ArrowBack as ArrowBackIcon,
-} from '@mui/icons-material';
-import { TreeView } from '@mui/lab';
+import { Comment as CommentIcon, ArrowBack as ArrowBackIcon, Add as PlusIcon } from '@mui/icons-material';
 import { Avatar, Button, List, ListItemButton, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
 import { TTheme } from './ForumPage.types';
 import { MemoizedComment } from './parts/Comment';
-import { TEMP_DATA } from './tempData';
+import { CreateTopicModal } from './parts/CreateTopicModal';
 import { useStyles } from './useStyles';
 
+import { RESOURCES_URL } from '../../../../shared/consts/common';
+import { useCreateTopicMutation, useGetTopicsQuery } from '../../services/redux/queries/forum.api';
 import { getUserIdSelector } from '../../services/redux/selectors/getUserSelector';
 import { useAppSelector } from '../../services/redux/store';
 import { useNavigatorOnLine } from '../../services/sw/useNavigatorOnLine';
@@ -22,7 +18,11 @@ import { getCreatedAtValue } from '../../utils/getCreatedAtValue';
 export const ForumPage = () => {
   const classes = useStyles();
 
-  const isUserAuthorized = !!useAppSelector(getUserIdSelector);
+  const userId = useAppSelector(getUserIdSelector);
+  const isUserAuthorized = !!userId;
+
+  const [createTopic] = useCreateTopicMutation();
+  const { data } = useGetTopicsQuery();
 
   const isOnline = useNavigatorOnLine();
 
@@ -30,6 +30,7 @@ export const ForumPage = () => {
 
   const [selectedTheme, setSelectedTheme] = useState<TTheme | null>(null);
   const [commentValue, setCommentValue] = useState<string>('');
+  const [isCreateTopicModalOpen, setIsCreateTopicModalOpen] = useState<boolean>(false);
 
   const createdAtValue = selectedTheme?.createdAt ? getCreatedAtValue(selectedTheme.createdAt) : '';
   const authorInitials = selectedTheme?.author ? getAuthorInitials(selectedTheme.author) : '';
@@ -38,7 +39,15 @@ export const ForumPage = () => {
     <div>
       <div className={classes.wrapper}>
         <List className={classes.themeList}>
-          {TEMP_DATA.map(item => (
+          <Button
+            variant={'text'}
+            color={'primary'}
+            size={'small'}
+            className={classes.createTopicBtn}
+            onClick={() => setIsCreateTopicModalOpen(true)}>
+            <PlusIcon fontSize="inherit" color="primary" /> Create a topic
+          </Button>
+          {data?.map(item => (
             <ListItemButton
               selected={selectedTheme?.title === item.title}
               key={item.id}
@@ -46,12 +55,22 @@ export const ForumPage = () => {
               <div className={classes.themeItem}>
                 <div> {item.title}</div>
                 <div className={classes.commentCount}>
-                  <CommentIcon fontSize="small" color="secondary" /> {item.discussions?.length || 0}
+                  <CommentIcon fontSize="small" color="secondary" /> {item.comments?.length || 0}
                 </div>
               </div>
             </ListItemButton>
           ))}
+
+          <CreateTopicModal
+            isOpen={isCreateTopicModalOpen}
+            onCreate={data => {
+              createTopic({ ...data, authorId: userId || null });
+              setIsCreateTopicModalOpen(false);
+            }}
+            onCancel={() => setIsCreateTopicModalOpen(false)}
+          />
         </List>
+
         {!selectedTheme ? (
           <div className={classes.emptyBlock}>
             <ArrowBackIcon fontSize="large" fontVariant={'outlined'} />
@@ -68,7 +87,7 @@ export const ForumPage = () => {
               </Typography>
               <div className={classes.themeTitle}>
                 <div className={classes.themeAuthor}>
-                  <Avatar src={selectedTheme.author.avatar} sx={{ width: 100, height: 100 }}>
+                  <Avatar src={RESOURCES_URL + selectedTheme.author.avatar} sx={{ width: 100, height: 100 }}>
                     {authorInitials}
                   </Avatar>
                   <Typography variant="body1">{selectedTheme.author.second_name}</Typography>
@@ -80,7 +99,7 @@ export const ForumPage = () => {
                 {selectedTheme.content}
               </Typography>
               <div className={classes.comments}>
-                <Typography variant={'h6'}>Comments: {selectedTheme.discussions?.length || 0}</Typography>
+                <Typography variant={'h6'}>Comments: {selectedTheme.comments?.length || 0}</Typography>
                 {canUserWrite && (
                   <TextField
                     color="secondary"
@@ -104,11 +123,9 @@ export const ForumPage = () => {
                     Send
                   </Button>
                 )}
-                <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
-                  {selectedTheme.discussions?.map(comment => (
-                    <MemoizedComment key={comment.id} data={comment} canUserWrite={canUserWrite} />
-                  ))}
-                </TreeView>
+                {selectedTheme.comments?.map(comment => (
+                  <MemoizedComment key={comment.id} data={comment} />
+                ))}
               </div>
             </div>
           </>

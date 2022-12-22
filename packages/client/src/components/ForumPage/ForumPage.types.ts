@@ -8,8 +8,6 @@ export type TComment = {
   author: Pick<TUser, 'first_name' | 'second_name' | 'avatar'>;
   // дата создания комментария
   createdAt: string;
-  // ответы на комментарий
-  answers?: TComment[];
 };
 
 export type TTheme = {
@@ -23,5 +21,5 @@ export type TTheme = {
   // дата создания темы
   createdAt: string;
   // обсуждения темы
-  discussions?: TComment[];
+  comments?: TComment[];
 };
