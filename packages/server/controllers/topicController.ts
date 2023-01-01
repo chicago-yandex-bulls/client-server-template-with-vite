@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 
 import { ApiError } from '../error/ApiError';
 import { createSequelizeErrorMes } from '../error/createSequelizeErrorMes';
-import { Topic } from '../models/models';
+import { Comment, Topic } from '../models/models';
 
 class TopicController {
   async create(
@@ -29,9 +29,16 @@ class TopicController {
   }
 
   async getAll(_req: Request, res: Response) {
-    const users = await Topic.findAll();
+    const topics = await Topic.findAll({
+      include: Comment,
 
-    return res.json(users);
+      order: [
+        ['updatedAt', 'ASC'],
+        [Comment, 'updatedAt', 'DESC'],
+      ],
+    });
+
+    return res.json(topics);
   }
 }
 

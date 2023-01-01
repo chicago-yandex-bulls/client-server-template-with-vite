@@ -4,6 +4,7 @@ export type TComment = {
   id: number;
   // текст комментария
   content: string;
+  authorId: number | null;
   // автор комментария
   author: Pick<TUser, 'first_name' | 'second_name' | 'avatar'>;
   // дата создания комментария

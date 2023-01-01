@@ -42,7 +42,7 @@ const store = configureStore({
 const cache = createEmotionCache();
 
 const Main = () => {
-  const socket: Socket<IServerToClientEvents, IClientToServerEvents> = io({
+  const socket: Socket<IServerToClientEvents, IClientToServerEvents> = io('http://localhost:3001', {
     transports: ['websocket'],
   });
 
