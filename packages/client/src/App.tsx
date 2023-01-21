@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Route, Routes } from 'react-router-dom';
 
 import { CreateOrJoinGamePage } from './components/CreateOrJoinGamePage/CreateOrJoinGamePage';
@@ -32,7 +33,12 @@ export function App(): JSX.Element {
 
   return (
     <ErrorBoundary>
-      <div className="App">
+      <div className='App'>
+        <Helmet>
+          <meta httpEquiv='Content-Security-Policy' content="default-src 'self';
+                                                              img-src *;
+                                                              script-src trusted.com;" />
+        </Helmet>
         <Layout>
           <Routes>
             <Route path={'/'} element={<StartPage />} />
