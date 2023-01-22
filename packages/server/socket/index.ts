@@ -6,6 +6,7 @@ import { addDecreaseSnakeEvent } from './addDecreaseSnakeEvent';
 import { addJoinRoomEvent } from './addJoinRoomEvent';
 import { addStartEvent } from './addStartEvent';
 import { addUserDisconnectedEvent } from './addUserDisconnectedEvent';
+import { addChangeThemeEvent } from './changeTheme';
 
 import type { IClientToServerEvents, IServerToClientEvents, TGames } from '../../shared/types';
 
@@ -41,5 +42,8 @@ export const addSocket = (io: socketIo.Server<IClientToServerEvents, IServerToCl
 
     // для уменьшения длины змеи
     addDecreaseSnakeEvent(socket, games);
+
+    // ручка по темизации
+    addChangeThemeEvent(socket);
   });
 };
