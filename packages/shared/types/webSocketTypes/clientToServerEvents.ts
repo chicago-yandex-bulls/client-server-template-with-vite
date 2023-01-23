@@ -1,9 +1,10 @@
 import type { TUser } from '../apiTypes';
-import type { TGame, TPlayer, TPosition } from '../gameTypes';
+import type { TColorTheme, TGame, TPlayer, TPosition } from '../gameTypes';
 
 export interface IClientToServerEvents {
   createRoom: (creator: TUser) => void;
   joinRoom: (roomId: TGame['roomId'], player: TUser) => void;
+  changeTheme: ( user: TUser, theme: TColorTheme  ) => void;
   start: (roomId: TGame['roomId']) => void;
   changeCursorPosition: (data: {
     roomId: TGame['roomId'];

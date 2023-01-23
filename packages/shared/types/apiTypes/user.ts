@@ -1,3 +1,5 @@
+import type { TColorTheme } from '../gameTypes';
+
 export type TUser = {
   id: number | null;
   first_name: string;
@@ -7,4 +9,5 @@ export type TUser = {
   email: string;
   phone: string;
   avatar: string;
+  colorTheme: TColorTheme
 };

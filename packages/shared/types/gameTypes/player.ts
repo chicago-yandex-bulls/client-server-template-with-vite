@@ -4,6 +4,7 @@ import type { TPosition } from './position';
 import type { TUser } from '../apiTypes';
 
 export type TPlayer = {
+  theme: any;
   user: TUser;
   isHost: boolean;
   color: TSnakeColor;
