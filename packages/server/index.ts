@@ -18,7 +18,19 @@ const PATH_TO_CLIENT_DIR = process.env.NODE_ENV === 'development' ? '../client' 
 const render = require(PATH_TO_CLIENT_DIR + '/dist-ssr/entry-server.cjs').render;
 
 const app = express();
-
+app.use((_req: any, res: any, next: any) => {
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    'Content-Security-Policy': 'default-src *',
+    'X-Content-Security-Policy': 'default-src *',
+    'X-WebKit-CSP': 'default-src *',
+    'media-src': 'https://yandex.ru',
+  });
+  next();
+});
 const { Server } = socketIo;
 
 const http = require('http');
